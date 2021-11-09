@@ -1,3 +1,8 @@
+import {Action, ActionCreator, AnyAction} from "redux";
+import {userService} from "../_services/user.service";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "../types";
+
 const userConstants = {
     LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
     LOGIN_SUCCESS: 'USERS_LOGIN_SUCCESS',
@@ -13,5 +18,13 @@ const userConstants = {
     GETALL_SUCCESS: 'USERS_GETALL_SUCCESS',
     GETALL_FAILURE: 'USERS_GETALL_FAILURE',
 };
+
+export interface LoginRequest extends Action {
+    type: 'USERS_LOGIN_REQUEST',
+    payload: {
+        username: string,
+        password: string
+    }
+}
 
 export default userConstants;

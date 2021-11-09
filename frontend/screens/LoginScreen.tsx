@@ -17,8 +17,22 @@ import {
 import SizedBox from '../components/SizedBox';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import {connect, ConnectedProps} from 'react-redux';
 import * as yup from "yup";
+import {RootState} from "../types";
+import {userActions} from "../_actions/user.actions";
 
+const mapState = (state: RootState) => ({
+    loggedIn: state.authentication.loggedIn
+})
+
+const mapDispatch = {
+    login: (username: string, password: string) => (userActions.login(username, password))
+}
+
+const connector = connect(mapState, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux;
 
 interface FormData {
     email: string;
@@ -34,8 +48,7 @@ const schema = yup.object().shape({
         .required('Password is required'),
 }).required();
 
-
-export default function LoginScreen() {
+const LoginScreen = (props: Props) => {
     const emailInput = React.useRef<TextInput>(null);
     const passwordInput = React.useRef<TextInput>(null);
 
@@ -52,7 +65,9 @@ export default function LoginScreen() {
     const onSubmit = handleSubmit(({email, password}) => {
         console.log(`Data: ${email}, ${password}`)
         Alert.alert('Data', `Email: ${email}\nPassword: ${password}`);
+        props.login(email,password);
     });
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -164,6 +179,8 @@ export default function LoginScreen() {
         </TouchableWithoutFeedback>
     );
 };
+
+export default connector(LoginScreen)
 
 
 const styles = StyleSheet.create({
