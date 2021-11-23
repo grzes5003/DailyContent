@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { persistStore } from 'redux-persist';
 // @ts-ignore
 import { createLogger } from 'redux-logger';
 import rootReducer from '../_reducers';
@@ -13,3 +14,5 @@ export const store = createStore(
         loggerMiddleware
     )
 );
+
+export const persistor = persistStore(store);

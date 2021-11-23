@@ -9,6 +9,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import rootReducer from "./_reducers";
 import {store} from "./_helpers/store.helper";
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import {LoginFailure, LoginRequest, LoginSuccess} from "./constants";
 
 declare global {
   namespace ReactNavigation {
@@ -41,6 +42,12 @@ export type userData = {
   username: undefined,
   passwd: undefined
 }
+
+///
+
+export type LoginAction = LoginRequest | LoginSuccess | LoginFailure;
+
+///
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type RootAction = ReturnType<any>

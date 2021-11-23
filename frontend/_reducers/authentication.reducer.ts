@@ -1,10 +1,12 @@
 import userConstants from '../constants/UserConstants';
 import storage from "../_helpers/storage";
+import {LoginAction} from "../types";
 
-let user = storage.load({
+const user = storage.load({
     key: 'user'
 }).then(
     user => {
+        console.log('called !!!');
         if (user && user.data && user.data.token) {
             console.log("authHeader: ", user.data.token);
             return new Headers({
@@ -20,7 +22,7 @@ let user = storage.load({
     err => {
         // any exception including data not found
         // goes to catch()
-        console.warn(err.message);
+        console.warn('coo? ' + err.message);
         switch (err.name) {
             case 'NotFoundError':
                 // TODO;
@@ -31,19 +33,20 @@ let user = storage.load({
         }
     }
 )
+
+console.log('user:    :::: ', user)
 const initialState = user ? {loggedIn: true, user} : {};
 
-export function authentication(state = initialState, action: { type: any; user: any; error: any; }) {
+export function authentication(state = initialState, action: LoginAction) {
     switch (action.type) {
         case userConstants.LOGIN_REQUEST:
             return {
                 loggingIn: true,
-                user: action.user
             };
         case userConstants.LOGIN_SUCCESS:
             return {
                 loggedIn: true,
-                user: action.user
+                user: action.payload
             };
         case userConstants.LOGIN_FAILURE:
             return {

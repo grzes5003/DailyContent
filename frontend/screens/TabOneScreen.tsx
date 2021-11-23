@@ -1,13 +1,35 @@
 import * as React from 'react';
-import {StyleSheet, Button, Alert} from 'react-native';
+import {StyleSheet, Button, Alert, Image} from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import Carousel from 'react-native-snap-carousel';
 import {Text, View} from '../components/Themed';
-import {RootTabScreenProps} from '../types';
-import {useState} from 'react'
+import {RootState, RootTabScreenProps} from '../types';
+import {useEffect, useState} from 'react'
+import {userActions} from "../_actions/user.actions";
+import {connect, ConnectedProps, useDispatch} from "react-redux";
+import {imgActions} from "../_actions/img.actions";
 
-export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>) {
+const mapState = (state: RootState) => ({
+// @ts-ignore
+    image: state.images.images
+})
+
+const mapDispatch = {
+    getImg: (idx: number) => (imgActions.getImg(idx))
+}
+
+
+const connector = connect(mapState, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+type Props = PropsFromRedux;
+
+// export default function
+const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>, props: Props) => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(imgActions.getImg(0));
+    }, [dispatch]);
 
     const [state, setState] = useState({
         activeIndex: 0,
@@ -15,22 +37,22 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
             {
                 title: "Item 1",
                 text: "Text 1",
+                image: props.image,
             },
             {
                 title: "Item 2",
                 text: "Text 2",
+                image: props.image,
             },
             {
                 title: "Item 3",
                 text: "Text 3",
+                image: props.image,
             },
             {
                 title: "Item 4",
                 text: "Text 4",
-            },
-            {
-                title: "Item 5",
-                text: "Text 5",
+                image: props.image,
             },
         ]
     });
@@ -39,6 +61,14 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
         return (
             <View style={styles.slide}>
                 <Text style={styles.title}>{item.title}</Text>
+                <Image
+                    style={{
+                        height: 400,
+                        width: '100%',
+                        // display: 'block',
+                    }}
+                    source={{ uri: 'https://picsum.photos/300/400' }}
+                />
             </View>
         );
     }
@@ -51,13 +81,15 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
                 layout={"default"}
                 // ref={ref => carousel = ref}
                 data={state.carouselItems}
-                sliderWidth={300}
-                itemWidth={300}
+                sliderWidth={400}
+                itemWidth={400}
                 renderItem={_renderItem}
                 onSnapToItem={index => setState({carouselItems: state.carouselItems, activeIndex: index})}/>
         </View>
     );
 }
+
+export default connector(TabOneScreen)
 
 const styles = StyleSheet.create({
     container: {

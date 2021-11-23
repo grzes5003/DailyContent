@@ -1,7 +1,7 @@
 import {Action, ActionCreator, AnyAction} from "redux";
 import {userService} from "../_services/user.service";
 import {ThunkAction} from "redux-thunk";
-import {RootState} from "../types";
+import {RootState, userData} from "../types";
 
 const userConstants = {
     LOGIN_REQUEST: 'USERS_LOGIN_REQUEST',
@@ -24,6 +24,20 @@ export interface LoginRequest extends Action {
     payload: {
         username: string,
         password: string
+    }
+}
+
+export interface LoginSuccess extends Action {
+    type: 'USERS_LOGIN_SUCCESS',
+    payload: {
+        username: string,
+    }
+}
+
+export interface LoginFailure extends Action {
+    type: 'USERS_LOGIN_FAILURE',
+    payload: {
+        error: string
     }
 }
 
