@@ -18,11 +18,11 @@ import {authService} from "../_services/auth.service";
 //     login
 // }
 
-const login = (username: string): ThunkAction<void, AuthState, unknown, Action<string>> => {
+const login = ( {username, password}: {username: string, password: string} ): ThunkAction<void, AuthState, unknown, AnyAction> => {
     return async dispatch => {
         console.log('login dispatch!')
         dispatch(setLoading(true))
-        authService.login(username, username)
+        authService.login(username, password)
             .then(
                 user => {
                     dispatch(setUser(user));
@@ -36,6 +36,22 @@ const login = (username: string): ThunkAction<void, AuthState, unknown, Action<s
     }
 }
 
+const register = ({username, password}: {username: string, password: string}): ThunkAction<void, AuthState, unknown, AnyAction> => {
+    return async dispatch => {
+        console.log('register dispatch!')
+        dispatch(setLoading(true))
+
+        authService.register({ username, password })
+            .then(
+                user =>
+                    dispatch(setUser(user)),
+                error =>
+                    dispatch(setErrors(error))
+            )
+    }
+}
+
 export const authActions = {
-    login
+    login,
+    register
 }

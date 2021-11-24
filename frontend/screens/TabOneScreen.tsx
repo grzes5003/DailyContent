@@ -32,10 +32,10 @@ const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>) => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        // dispatch(imgActions.getImg(0));
+        dispatch(imgActions.getAllImages());
     }, [dispatch]);
 
-    const [state, setState] = useState({
+    const [images, setImages] = useState({
         activeIndex: 0,
         carouselItems: [
             // {
@@ -85,11 +85,11 @@ const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>) => {
             <Carousel
                 layout={"default"}
                 // ref={ref => carousel = ref}
-                data={state.carouselItems}
+                data={images.carouselItems}
                 sliderWidth={400}
                 itemWidth={400}
                 renderItem={_renderItem}
-                onSnapToItem={index => setState({carouselItems: state.carouselItems, activeIndex: index})}/>
+                onSnapToItem={index => setImages({carouselItems: images.carouselItems, activeIndex: index})}/>
         </View>
     );
 }

@@ -1,30 +1,46 @@
 import {config} from "../config";
 import storage from "../_helpers/storage";
+import axios from "axios";
+import {User} from "../_reducers/auth.reducer";
 
 
 const getImg = (idx: number) => {
-    const requestOptions: RequestInit = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-    };
-
     const req = `${config.apiUrl}/images/${idx}`;
 
-    return fetch(req, requestOptions)
-        .then(handleResponse)
-        .then(img => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            // storage.save({
-            //     key: 'img', // Note: Do not use underscore("_") in key!
-            //     data: img,
-            // });
-            const imgObjectURL = URL.createObjectURL(img);
-            console.log(imgObjectURL);
-            return img;
-        });
+    return axios.get<string>(req, {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then((response) => {
+        const {data} = response;
+
+        console.log(' --------- got: ',data)
+        return data as string
+    }).catch((error) => {
+        console.log('error!: ', error)
+        return error
+    })
 }
 
+const getAllImgs = () => {
+    const req = `${config.apiUrl}/images/all`;
+
+    return axios.get<string>(req, {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then((response) => {
+        const {data} = response;
+
+        console.log(' --------- got: ',data)
+        return data as string
+    }).catch((error) => {
+        console.log('error!: ', error)
+        return error
+    })
+}
 
 function handleResponse(response: any) {
     console.log('GOT RESPONSE!')
@@ -32,5 +48,6 @@ function handleResponse(response: any) {
 }
 
 export const imgService = {
-    getImg
+    getImg,
+    getAllImgs
 }

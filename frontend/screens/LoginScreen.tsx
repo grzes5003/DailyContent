@@ -37,27 +37,27 @@ import {authActions} from "../_actions/auth.actions";
 // type Props = PropsFromRedux;
 
 interface FormData {
-    email: string;
+    username: string;
     password: string;
 }
 
 const schema = yup.object().shape({
-    email: yup.string()
+    username: yup.string()
         // .email("Please enter valid email")
-        .required('Email Address is Required'),
+        .required('Username Address is Required'),
     password: yup.string()
         .min(1, ({min}) => `Password must be at least ${min} characters`)
         .required('Password is required'),
 }).required();
 
 const LoginScreen = () => {
-    const emailInput = React.useRef<TextInput>(null);
+    const usernameInput = React.useRef<TextInput>(null);
     const passwordInput = React.useRef<TextInput>(null);
     const dispatch = useDispatch()
 
     const {control, handleSubmit} = useForm<FormData>({
         defaultValues: {
-            email: '',
+            username: '',
             password: '',
         },
         mode: 'onSubmit',
@@ -65,11 +65,11 @@ const LoginScreen = () => {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = handleSubmit(({email, password}) => {
-        console.log(`Data: ${email}, ${password}`)
-        Alert.alert('Data', `Email: ${email}\nPassword: ${password}`);
+    const onSubmit = handleSubmit(({username, password}) => {
+        console.log(`Data: ${username}, ${password}`)
+        Alert.alert('Data', `Username: ${username}\nPassword: ${password}`);
         // props.login(email,password);
-        dispatch(authActions.login(email))
+        dispatch(authActions.login({username, password}))
     });
 
 
@@ -89,13 +89,13 @@ const LoginScreen = () => {
 
                         <SizedBox height={32}/>
 
-                        <Pressable onPress={() => emailInput.current?.focus()}>
+                        <Pressable onPress={() => usernameInput.current?.focus()}>
                             <View style={styles.form}>
-                                <Text style={styles.label}>Email</Text>
+                                <Text style={styles.label}>Username</Text>
 
                                 <Controller
                                     control={control}
-                                    name="email"
+                                    name="username"
                                     //~ @ts-ignore
                                     render={({
                                                  field: {onBlur, onChange, value},
@@ -104,13 +104,13 @@ const LoginScreen = () => {
                                         <>
                                             <TextInput
                                                 autoCapitalize="none"
-                                                autoCompleteType="email"
+                                                autoCompleteType="username"
                                                 autoCorrect={false}
                                                 keyboardType="email-address"
                                                 onBlur={onBlur}
                                                 onChangeText={onChange}
                                                 onSubmitEditing={() => passwordInput.current?.focus()}
-                                                ref={emailInput}
+                                                ref={usernameInput}
                                                 returnKeyType="next"
                                                 style={styles.textInput}
                                                 textContentType="username"

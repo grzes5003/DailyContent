@@ -5,41 +5,34 @@ import {userService} from "../_services/user.service";
 import userConstants from "../constants/UserConstants";
 import {imgService} from "../_services/img.service";
 import imgConstants from "../constants/ImgConstants";
+import {setLoading, addImg as addImage, setImages, setErrors} from "../_reducers/img.reducer";
 
 
-const getImg = (idx: number): ThunkAction<void, RootState, unknown, AnyAction> =>
+const addImg = (idx: number): ThunkAction<void, RootState, unknown, AnyAction> =>
     async dispatch => {
         console.log('image dispatch!')
-        dispatch(request(idx))
+        dispatch(setLoading(true))
 
         imgService.getImg(idx)
             .then(
-                img => {
-                    dispatch(success(img));
-                    // history.push('/');
-                },
-                error => {
-                    dispatch(failure(error));
-                    // dispatch(alertActions.error(error));
-                }
+                image => dispatch(addImage(image)),
+                error => dispatch(setErrors(error))
             )
-
-        function request(idx: number) {
-            return {type: imgConstants.GET_IMAGE_REQUEST, idx}
-        }
-
-        function success(img: any) {
-            return {type: imgConstants.GET_IMAGE_SUCCESS, img}
-        }
-
-        function failure(error: any) {
-            console.log("ERROR LOGIN: error=", error);
-            return {type: imgConstants.GET_IMAGE_FAILURE, error}
-        }
     };
 
+const getAllImages = (): ThunkAction<void, RootState, unknown, AnyAction> =>
+    async dispatch => {
+        console.log('get all images dispatch!');
+        dispatch(setLoading(true))
 
+        imgService.getAllImgs()
+            .then(
+                images => dispatch(setImages(images)),
+                error => dispatch(setErrors(error))
+            )
+    };
 
 export const imgActions = {
-    getImg
+    addImg,
+    getAllImages
 }

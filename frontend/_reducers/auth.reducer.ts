@@ -35,20 +35,6 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        // loginRequest: state => {
-        //     console.log('logging in dispatch');
-        //     state.loading = true
-        // },
-        // loginSuccess: (state, action) => {
-        //     state.loading = false
-        //     state.loggedIn = true
-        //     state.username = action.payload.username
-        // },
-        // loginFailure: (state, action) => {
-        //     state.loggedIn = false;
-        //     state.loading = false;
-        //     state.error = action.payload.error
-        // }
         setLoading: (state, { payload }: PayloadAction<boolean>) => {
             state.loading = payload
         },
