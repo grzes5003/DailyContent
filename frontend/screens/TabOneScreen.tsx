@@ -9,51 +9,55 @@ import {useEffect, useState} from 'react'
 import {userActions} from "../_actions/user.actions";
 import {connect, ConnectedProps, useDispatch} from "react-redux";
 import {imgActions} from "../_actions/img.actions";
+import {useAppSelector} from "../_helpers/store.hooks";
+import {selectLoggedIn} from "../_reducers/auth.reducer";
 
-const mapState = (state: RootState) => ({
-// @ts-ignore
-    image: state.images.images
-})
+// const mapState = (state: RootState) => ({
+// // @ts-ignore
+//     image: state.images.images
+// })
+//
+// const mapDispatch = {
+//     getImg: (idx: number) => (imgActions.getImg(idx))
+// }
 
-const mapDispatch = {
-    getImg: (idx: number) => (imgActions.getImg(idx))
-}
 
-
-const connector = connect(mapState, mapDispatch)
-type PropsFromRedux = ConnectedProps<typeof connector>
-type Props = PropsFromRedux;
+// const connector = connect(mapState, mapDispatch)
+// type PropsFromRedux = ConnectedProps<typeof connector>
+// type Props = PropsFromRedux;
 
 // export default function
-const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>, props: Props) => {
+const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>) => {
+    const loggedIn = useAppSelector(selectLoggedIn)
+
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(imgActions.getImg(0));
+        // dispatch(imgActions.getImg(0));
     }, [dispatch]);
 
     const [state, setState] = useState({
         activeIndex: 0,
         carouselItems: [
-            {
-                title: "Item 1",
-                text: "Text 1",
-                image: props.image,
-            },
-            {
-                title: "Item 2",
-                text: "Text 2",
-                image: props.image,
-            },
-            {
-                title: "Item 3",
-                text: "Text 3",
-                image: props.image,
-            },
-            {
-                title: "Item 4",
-                text: "Text 4",
-                image: props.image,
-            },
+            // {
+            //     title: "Item 1",
+            //     text: "Text 1",
+            //     image: props.image,
+            // },
+            // {
+            //     title: "Item 2",
+            //     text: "Text 2",
+            //     image: props.image,
+            // },
+            // {
+            //     title: "Item 3",
+            //     text: "Text 3",
+            //     image: props.image,
+            // },
+            // {
+            //     title: "Item 4",
+            //     text: "Text 4",
+            //     image: props.image,
+            // },
         ]
     });
 
@@ -75,6 +79,7 @@ const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>, props: Props) 
 
     return (
         <View style={styles.container}>
+            {loggedIn ? <Text>logged in</Text> : <Text>not logged in</Text> }
             <Text style={styles.title}>Today's selection</Text>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
             <Carousel
@@ -89,7 +94,9 @@ const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>, props: Props) 
     );
 }
 
-export default connector(TabOneScreen)
+// export default connector(TabOneScreen)
+export default TabOneScreen
+
 
 const styles = StyleSheet.create({
     container: {

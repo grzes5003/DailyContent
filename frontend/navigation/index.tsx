@@ -1,7 +1,7 @@
 import {FontAwesome} from '@expo/vector-icons';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ColorSchemeName, Pressable} from 'react-native';
+import {ColorSchemeName, Pressable, Text} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import * as React from 'react';
 
@@ -25,7 +25,6 @@ export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName
                 <Drawer.Screen name="Home" component={TabOneScreen}/>
                 {/*<Drawer.Screen name="Notifications" component={NotFoundScreen} />*/}
                 <Drawer.Screen name="Login" component={LoginScreen} />
-
             </Drawer.Navigator>
             <Stack.Group screenOptions={{presentation: 'modal'}}>
                 <Stack.Screen name="Modal" component={ModalScreen}/>

@@ -17,22 +17,24 @@ import {
 import SizedBox from '../components/SizedBox';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {connect, ConnectedProps} from 'react-redux';
+import {connect, ConnectedProps, useDispatch} from 'react-redux';
 import * as yup from "yup";
 import {RootState} from "../types";
 import {userActions} from "../_actions/user.actions";
+import {useAppDispatch} from "../_helpers/store.hooks";
+import {authActions} from "../_actions/auth.actions";
 
-const mapState = (state: RootState) => ({
-    loggedIn: state.authentication.loggedIn
-})
+// const mapState = (state: RootState) => ({
+//     loggedIn: state.authentication.loggedIn
+// })
+//
+// const mapDispatch = {
+//     login: (username: string, password: string) => (userActions.login(username, password))
+// }
 
-const mapDispatch = {
-    login: (username: string, password: string) => (userActions.login(username, password))
-}
-
-const connector = connect(mapState, mapDispatch)
-type PropsFromRedux = ConnectedProps<typeof connector>
-type Props = PropsFromRedux;
+// const connector = connect(mapState, mapDispatch)
+// type PropsFromRedux = ConnectedProps<typeof connector>
+// type Props = PropsFromRedux;
 
 interface FormData {
     email: string;
@@ -41,16 +43,17 @@ interface FormData {
 
 const schema = yup.object().shape({
     email: yup.string()
-        .email("Please enter valid email")
+        // .email("Please enter valid email")
         .required('Email Address is Required'),
     password: yup.string()
-        .min(6, ({min}) => `Password must be at least ${min} characters`)
+        .min(1, ({min}) => `Password must be at least ${min} characters`)
         .required('Password is required'),
 }).required();
 
-const LoginScreen = (props: Props) => {
+const LoginScreen = () => {
     const emailInput = React.useRef<TextInput>(null);
     const passwordInput = React.useRef<TextInput>(null);
+    const dispatch = useDispatch()
 
     const {control, handleSubmit} = useForm<FormData>({
         defaultValues: {
@@ -65,7 +68,8 @@ const LoginScreen = (props: Props) => {
     const onSubmit = handleSubmit(({email, password}) => {
         console.log(`Data: ${email}, ${password}`)
         Alert.alert('Data', `Email: ${email}\nPassword: ${password}`);
-        props.login(email,password);
+        // props.login(email,password);
+        dispatch(authActions.login(email))
     });
 
 
@@ -180,8 +184,8 @@ const LoginScreen = (props: Props) => {
     );
 };
 
-export default connector(LoginScreen)
-
+// export default connector(LoginScreen)
+export default LoginScreen
 
 const styles = StyleSheet.create({
     button: {
