@@ -44,6 +44,6 @@ export const imgSlice = createSlice({
 export const {setLoading, setErrors, setImages, addImg} = imgSlice.actions
 
 export const selectImgLoading = (state: RootState) => state.img.loading
-export const selectImgUri = (state: RootState) => state.img.images
+export const selectImagesUri = (state: RootState) => state.img.images
 
 export default imgSlice.reducer

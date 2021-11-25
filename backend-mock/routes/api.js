@@ -36,8 +36,8 @@ router.get('/img/all', function(req, res, next) {
     ps.pipe(res)
 });
 
-router.get('/img/:images', function(req, res, next) {
-    const r = fs.createReadStream('backend-mock/public/images/${req.params.images}.jpg') // or any other way to get a readable stream
+router.get('/img/:image', function(req, res, next) {
+    const r = fs.createReadStream(`C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend-mock\\public\\images\\${req.params.image}.jpg`) // or any other way to get a readable stream
     const ps = new stream.PassThrough() // <---- this makes a trick with stream error handling
     stream.pipeline(
         r,

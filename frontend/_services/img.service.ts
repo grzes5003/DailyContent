@@ -26,25 +26,37 @@ const getImg = (idx: number) => {
 }
 
 const getAllImgs = () => {
-    const req = `${config.apiUrl}/img/all`;
+    const req = `${config.apiUrl}/img`;
     // const req = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Tom_Hiddleston_by_Gage_Skidmore.jpg/800px-Tom_Hiddleston_by_Gage_Skidmore.jpg'
     console.log('fetch all images from ', req)
 
-    return FileSystem.downloadAsync(
-        req,
-        FileSystem.documentDirectory + '0.jpg',
-        {
-            sessionType: FileSystem.FileSystemSessionType.FOREGROUND
-        }
-    )
-        .then(({ uri }) => {
-            console.log('Finished downloading to ', uri);
-            return uri
-        })
-        .catch(error => {
-            console.log('Finished downloading with error ');
-            console.error(error);
-        });
+    const promises = [];
+
+    for (const x of Array(5).keys()) {
+        promises.push(FileSystem.downloadAsync(
+            `${req}/${x}`,
+            FileSystem.documentDirectory + `${x}.jpg`,
+            {
+                sessionType: FileSystem.FileSystemSessionType.FOREGROUND
+            }
+        )
+            .then(({uri}) => {
+                console.log('Finished downloading to ', uri);
+                return uri
+            })
+            .catch(error => {
+                console.log('Finished downloading with error ');
+                console.error(error);
+            })
+        );
+    }
+
+    return Promise.all(promises).then(values => {
+        console.log('values ' + values);
+        return values;
+    }).catch(error => {
+        console.log(error);
+    })
 }
 
 function handleResponse(response: any) {
