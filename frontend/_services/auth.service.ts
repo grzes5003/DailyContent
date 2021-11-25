@@ -14,14 +14,14 @@ const login = (username: string, password: string) => {
         headers: {
             'Content-Type': 'application/json',
         }
-    }).then((response) => {
+    }).then(response => {
         const {data} = response
 
-        console.log(' --------- got: ',data)
-        return JSON.parse(data) as User
-    }).catch((error) => {
-        console.log('error!: ', error)
-        return error
+        console.log(' --------- got: ', response)
+        return data as unknown as User
+    }).catch(error => {
+        console.log('error!: ', error.response)
+        return Promise.reject(error)
     })
 }
 
@@ -39,7 +39,7 @@ const register = ({username, password}: { username: string, password: string }) 
     }).then((response) => {
         const {data} = response
 
-        console.log(' --------- got: ',data)
+        console.log(' --------- got: ',response)
         return JSON.parse(data) as User
     }).catch((error) => {
         console.log('error!: ', error)

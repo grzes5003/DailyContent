@@ -25,7 +25,6 @@ import {useAppDispatch, useAppSelector} from "../_helpers/store.hooks";
 import {authActions} from "../_actions/auth.actions";
 import {useNavigation} from "@react-navigation/native";
 import {selectLoggedIn} from "../_reducers/auth.reducer";
-import Container from "@react-navigation/native-stack/lib/typescript/src/views/DebugContainer.native";
 
 // const mapState = (state: RootState) => ({
 //     loggedIn: state.authentication.loggedIn
@@ -72,25 +71,16 @@ const LoginScreen = () => {
         resolver: yupResolver(schema)
     });
 
-    // const handleResponse = (username: string, password: string) => new Promise((resolve, reject) => {
-    //     console.log(`Data: ${username}, ${password}`);
-    //     dispatch(authActions.login({username, password}));
-    //
-    //     selectAuthErrors.length === 0 ? resolve() : reject(selectAuthErrors);
-    // });
-
-    function sleep(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    const onSubmit = handleSubmit(({username, password}) => {
+    const onSubmit = handleSubmit(async ({username, password}) => {
         console.log(`Data: ${username}, ${password}`)
         dispatch(authActions.login({username, password}))
+        // authActions.logi({username, password}, dispatch)
         if (selectAuthErrors.length === 0) {
             navigation.navigate("Home")
         } else {
             Alert.alert(selectAuthErrors)
         }
+
     });
 
 
@@ -188,27 +178,16 @@ const LoginScreen = () => {
                         <SizedBox height={16}/>
 
                         <View style={styles.forgotPasswordContainer}>
-                            <Text onPress={() => {
-                                Alert.alert('No implemented :/')
-                            }} style={styles.textButton}>Forgot password?</Text>
+                            <Text style={styles.textButton}>Forgot password?</Text>
                         </View>
 
                         <SizedBox height={16}/>
 
                         <TouchableOpacity onPress={onSubmit}>
                             <View style={styles.button}>
-                                <Text style={styles.buttonTitle}>Login</Text>
+                                <Text style={styles.buttonTitle}>Continue</Text>
                             </View>
                         </TouchableOpacity>
-                        <View style={styles.orText}>
-                            <Text style={styles.buttonTitle}>Or</Text>
-                        </View>
-                        <TouchableOpacity onPress={onSubmit}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonTitle}>Register</Text>
-                            </View>
-                        </TouchableOpacity>
-
                     </KeyboardAvoidingView>
                 </SafeAreaView>
             </View>
@@ -220,13 +199,6 @@ const LoginScreen = () => {
 export default LoginScreen
 
 const styles = StyleSheet.create({
-    orText: {
-        marginTop: '2%',
-        marginBottom: '2%',
-        width: '100%',
-        display: "flex",
-        justifyContent: 'center',
-    },
     button: {
         alignItems: 'center',
         backgroundColor: 'rgb(93, 95, 222)',

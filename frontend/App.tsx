@@ -9,6 +9,8 @@ import Navigation from './navigation';
 import {store, persistor} from "./_helpers/store.helper";
 import {Provider} from 'react-redux';
 import {PersistGate} from "redux-persist/integration/react";
+import RootNavigator from "./navigation";
+import {NavigationContainer} from "@react-navigation/native";
 
 export default function App() {
     const isLoadingComplete = useCachedResources();
@@ -21,8 +23,11 @@ export default function App() {
             <SafeAreaProvider>
                 <Provider store={store}>
                     <PersistGate loading={null} persistor={persistor}>
-                        <Navigation colorScheme={colorScheme}/>
-                        <StatusBar/>
+                        {/*<Navigation colorScheme={colorScheme}/>*/}
+                        <NavigationContainer>
+                            <RootNavigator/>
+                        </NavigationContainer>
+                        {/*<StatusBar/>*/}
                     </PersistGate>
                 </Provider>
             </SafeAreaProvider>

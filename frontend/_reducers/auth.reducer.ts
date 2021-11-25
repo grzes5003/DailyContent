@@ -42,17 +42,25 @@ export const authSlice = createSlice({
         setErrors: (state, { payload }: PayloadAction<string>) => {
             state.error = payload
             state.loggedIn = false
+            state.loading = false
         },
 
         setUser: (state, { payload }: PayloadAction<User>) => {
             state.user = payload
             state.loggedIn = true
+            state.loading = false
         },
+
+        logout: (state) => {
+            state.user = undefined
+            state.loggedIn = false
+            state.loading = false
+        }
     }
 })
 
 // export const { loginRequest, loginSuccess, loginFailure } = authSlice.actions
-export const { setLoading, setErrors, setUser } = authSlice.actions
+export const { setLoading, setErrors, setUser, logout } = authSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectLoggedIn = (state: RootState) => state.auth.loggedIn

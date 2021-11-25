@@ -11,6 +11,7 @@ import {connect, ConnectedProps, useDispatch} from "react-redux";
 import {imgActions} from "../_actions/img.actions";
 import {useAppSelector} from "../_helpers/store.hooks";
 import {selectLoggedIn} from "../_reducers/auth.reducer";
+import {selectImgUri} from "../_reducers/img.reducer";
 
 // const mapState = (state: RootState) => ({
 // // @ts-ignore
@@ -29,6 +30,8 @@ import {selectLoggedIn} from "../_reducers/auth.reducer";
 // export default function
 const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>) => {
     const loggedIn = useAppSelector(selectLoggedIn)
+    const imageUri = useAppSelector(selectImgUri)
+    console.log('uri', imageUri)
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -38,26 +41,22 @@ const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>) => {
     const [images, setImages] = useState({
         activeIndex: 0,
         carouselItems: [
-            // {
-            //     title: "Item 1",
-            //     text: "Text 1",
-            //     image: props.image,
-            // },
-            // {
-            //     title: "Item 2",
-            //     text: "Text 2",
-            //     image: props.image,
-            // },
-            // {
-            //     title: "Item 3",
-            //     text: "Text 3",
-            //     image: props.image,
-            // },
-            // {
-            //     title: "Item 4",
-            //     text: "Text 4",
-            //     image: props.image,
-            // },
+            {
+                title: "Item 1",
+                text: "Text 1",
+            },
+            {
+                title: "Item 2",
+                text: "Text 2",
+            },
+            {
+                title: "Item 3",
+                text: "Text 3",
+            },
+            {
+                title: "Item 4",
+                text: "Text 4",
+            },
         ]
     });
 
@@ -71,7 +70,7 @@ const TabOneScreen = ({navigation}: RootTabScreenProps<'TabOne'>) => {
                         width: '100%',
                         // display: 'block',
                     }}
-                    source={{ uri: 'https://picsum.photos/300/400' }}
+                    source={{ uri: imageUri as unknown as string }}
                 />
             </View>
         );

@@ -6,13 +6,13 @@ import {imgSlice} from './img.reducer';
 import {users} from './user.reducer';
 
 const persistAuth = {
-    key: 'root',
+    key: 'auth',
     storage: AsyncStorage,
     whitelist: ['loggedIn', 'user']
 };
 
 const persistImgs = {
-    key: 'root',
+    key: 'img',
     storage: AsyncStorage,
 }
 

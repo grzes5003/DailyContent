@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const router = express.Router();
 const users = require('../resources/data');
+const fs = require("fs");
+const stream = require("stream");
 
 let corsOptions = {
     origin: true,
@@ -19,8 +21,34 @@ router.get('/hello', function(req, res, next) {
     res.send('api works');
 });
 
+router.get('/img/all', function(req, res, next) {
+    const r = fs.createReadStream('C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend-mock\\public\\images\\0.jpg') // or any other way to get a readable stream
+    const ps = new stream.PassThrough() // <---- this makes a trick with stream error handling
+    stream.pipeline(
+        r,
+        ps, // <---- this makes a trick with stream error handling
+        (err) => {
+            if (err) {
+                console.log(err) // No such file or any other kind of error
+                return res.sendStatus(400);
+            }
+        })
+    ps.pipe(res)
+});
+
 router.get('/img/:images', function(req, res, next) {
-    res.send(`PUT HTTP method on user/${req.params.images} resource`);
+    const r = fs.createReadStream('backend-mock/public/images/${req.params.images}.jpg') // or any other way to get a readable stream
+    const ps = new stream.PassThrough() // <---- this makes a trick with stream error handling
+    stream.pipeline(
+        r,
+        ps, // <---- this makes a trick with stream error handling
+        (err) => {
+            if (err) {
+                console.log(err) // No such file or any other kind of error
+                return res.sendStatus(400);
+            }
+        })
+    ps.pipe(res)
 });
 
 router.post('/auth/login', function(req, res, next) {

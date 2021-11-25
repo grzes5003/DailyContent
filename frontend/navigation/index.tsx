@@ -1,8 +1,8 @@
 import {FontAwesome} from '@expo/vector-icons';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ColorSchemeName, Pressable, Text} from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {Button, ColorSchemeName, Pressable, Text} from 'react-native';
+import {createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
 import * as React from 'react';
 
 import ModalScreen from '../screens/ModalScreen';
@@ -11,38 +11,51 @@ import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types
 import LinkingConfiguration from './LinkingConfiguration';
 import TabOneScreen from "../screens/TabOneScreen";
 import LoginScreen from "../screens/LoginScreen";
+import {useAppSelector} from "../_helpers/store.hooks";
+import {logout, selectLoggedIn} from "../_reducers/auth.reducer";
+import {useDispatch} from "react-redux";
 
 const Drawer = createDrawerNavigator();
 
-export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
+export function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
+    const loggedIn = useAppSelector(selectLoggedIn);
+    const dispatch = useDispatch();
+
+    const DrawerContent = (props: any) => (
+        <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            {loggedIn ?
+                <DrawerItem label="Logout" onPress={() => {
+                    dispatch(logout())
+                    props.navigation.navigate("Home")
+                }}/> :
+                <DrawerItem label="Login" onPress={() => {
+                    props.navigation.navigate("Login")
+                }}/>
+            }
+        </DrawerContentScrollView>
+    )
+
     return (
-        <NavigationContainer
-            linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Drawer.Navigator
-                screenOptions={{}}
-                initialRouteName="Home">
-                <Drawer.Screen name="Home" component={TabOneScreen}/>
-                {/*<Drawer.Screen name="Notifications" component={NotFoundScreen} />*/}
-                <Drawer.Screen name="Login" component={LoginScreen} />
-            </Drawer.Navigator>
-            <Stack.Group screenOptions={{presentation: 'modal'}}>
-                <Stack.Screen name="Modal" component={ModalScreen}/>
-            </Stack.Group>
-            {/*<RootNavigator/>*/}
-        </NavigationContainer>
+        <Drawer.Navigator screenOptions={{}}
+                          initialRouteName="Home"
+                          drawerContent={DrawerContent}
+        >
+            <Drawer.Screen name="Home" component={TabOneScreen}/>
+           {/*<Drawer.Screen name="Login" component={LoginScreen}/>*/}
+        </Drawer.Navigator>
     );
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+export default function RootNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Root" component={TabOneScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="Drawer" component={Navigation} options={{headerShown: false}}/>
             <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
             <Stack.Group screenOptions={{presentation: 'modal'}}>
-                <Stack.Screen name="Modal" component={ModalScreen}/>
+                <Stack.Screen name="Login" component={LoginScreen}/>
             </Stack.Group>
         </Stack.Navigator>
     );
