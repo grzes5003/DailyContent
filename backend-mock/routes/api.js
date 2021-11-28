@@ -4,6 +4,18 @@ const router = express.Router();
 const users = require('../resources/data');
 const fs = require("fs");
 const stream = require("stream");
+const {LoremIpsum} = require("lorem-ipsum");
+
+const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+        max: 8,
+        min: 4
+    },
+    wordsPerSentence: {
+        max: 16,
+        min: 4
+    }
+});
 
 let corsOptions = {
     origin: true,
@@ -49,6 +61,12 @@ router.get('/img/:image', function(req, res, next) {
             }
         })
     ps.pipe(res)
+});
+
+router.get('/info/:index', function(req, res, next) {
+    const title = lorem.generateWords(2) + ` ${req.params.index}`;
+    const description = lorem.generateParagraphs(6);
+    res.send({title, description});
 });
 
 router.post('/auth/login', function(req, res, next) {

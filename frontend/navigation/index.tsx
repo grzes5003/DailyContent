@@ -3,6 +3,7 @@ import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/na
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Button, ColorSchemeName, Pressable, Text} from 'react-native';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
+import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 
 import ModalScreen from '../screens/ModalScreen';
@@ -14,6 +15,7 @@ import LoginScreen from "../screens/LoginScreen";
 import {useAppSelector} from "../_helpers/store.hooks";
 import {logout, selectLoggedIn} from "../_reducers/auth.reducer";
 import {useDispatch} from "react-redux";
+import Home from "../screens/Home";
 
 const Drawer = createDrawerNavigator();
 
@@ -22,14 +24,14 @@ export function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     const dispatch = useDispatch();
 
     const DrawerContent = (props: any) => (
-        <DrawerContentScrollView {...props}>
+        <DrawerContentScrollView style={{backgroundColor: 'black'}} {...props}>
             <DrawerItemList {...props} />
             {loggedIn ?
-                <DrawerItem label="Logout" onPress={() => {
+                <DrawerItem activeTintColor='white' inactiveTintColor='white' label="Logout" onPress={() => {
                     dispatch(logout())
                     props.navigation.navigate("Home")
                 }}/> :
-                <DrawerItem label="Login" onPress={() => {
+                <DrawerItem activeTintColor='white' inactiveTintColor='white' label="Login" onPress={() => {
                     props.navigation.navigate("Login")
                 }}/>
             }
@@ -37,11 +39,11 @@ export function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     )
 
     return (
-        <Drawer.Navigator screenOptions={{}}
+        <Drawer.Navigator screenOptions={{drawerActiveTintColor: 'white', drawerInactiveTintColor: 'white'}}
                           initialRouteName="Home"
                           drawerContent={DrawerContent}
         >
-            <Drawer.Screen name="Home" component={TabOneScreen}/>
+            <Drawer.Screen options={{headerTransparent: true, headerTitle: ''}} name="Home" component={Home}/>
            {/*<Drawer.Screen name="Login" component={LoginScreen}/>*/}
         </Drawer.Navigator>
     );
@@ -52,10 +54,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function RootNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Drawer" component={Navigation} options={{headerShown: false}}/>
+            <Stack.Screen name="Drawer" component={Navigation} options={{headerShown: false, headerTransparent: true}}/>
             <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
             <Stack.Group screenOptions={{presentation: 'modal'}}>
-                <Stack.Screen name="Login" component={LoginScreen}/>
+                <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: true, headerTransparent: true, headerTintColor: 'white'}}/>
             </Stack.Group>
         </Stack.Navigator>
     );
