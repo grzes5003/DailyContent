@@ -3,8 +3,7 @@ mod auth;
 mod api;
 
 extern crate pretty_env_logger;
-#[macro_use]
-extern crate log;
+#[macro_use] extern crate log;
 
 use std::io::Read;
 use std::env;
@@ -38,6 +37,7 @@ fn generate_db(b: bool) -> Arc<dyn Database> {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     pretty_env_logger::init();
+    println!("starting server");
 
     let mut settings = config::Config::default();
     settings
@@ -65,6 +65,7 @@ async fn main() -> std::io::Result<()> {
                             .service(login)
                             .service(register)
                             .service(logout)
+                            .service(hello)
                     )
             )
     })

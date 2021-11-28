@@ -10,12 +10,14 @@ pub struct Content {
     pub image_url: String,
     pub title: String,
     pub description: String,
+    pub category: String
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ContentText {
     pub title: String,
     pub description: String,
+    pub feedback: bool
 }
 
 impl ContentText {
@@ -23,6 +25,7 @@ impl ContentText {
         ContentText {
             title: content.title.clone(),
             description: content.description.clone(),
+            feedback: false
         }
     }
 }

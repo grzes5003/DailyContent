@@ -41,7 +41,8 @@ export default () => {
                 {
                     title: contentTexts[idx].title,
                     description: contentTexts[idx].description,
-                    uri: image as unknown as string
+                    uri: image as unknown as string,
+                    feedback: contentTexts[idx].feedback
                 } as ContentInfo
             )
         )
@@ -88,11 +89,10 @@ export default () => {
 };
 
 const _renderItem = ({item, index}: { item: ContentInfo, index: number }, parallaxProps: AdditionalParallaxProps) => {
-    console.log('content1', item)
     const content = item as ContentInfo;
     return (
         <View style={{flex: 1, flexGrow: 1}}>
-            <ContentComponent {...{content, parallaxProps}} />
+            <ContentComponent {...{content, index, parallaxProps}} />
         </View>
     );
 }

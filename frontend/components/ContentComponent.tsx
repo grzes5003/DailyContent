@@ -8,17 +8,18 @@ import {ParallaxImage} from "react-native-snap-carousel";
 
 interface ContentProps {
     content: ContentInfo;
+    index: number;
     parallaxProps: any;
 }
 
 const { Value } = Animated;
 
-export default ({ content, parallaxProps }: ContentProps) => {
+export default ({ content, index, parallaxProps }: ContentProps) => {
     const y = new Value(0);
     return (
         <View style={styles.container}>
             <Cover {...{ y, content, parallaxProps }} />
-            <Content {...{ y, content }} />
+            <Content {...{ y, content, index }} />
         </View>
     );
 };

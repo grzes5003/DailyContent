@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "username": "aaa",
+    "password": "aaa",
+    "preferences": {
+      "person": 0,
+      "place": 0,
+      "history": 0
+    }
+  },
+  {
+    "id": 1,
+    "username": "bbb",
+    "password": "bbb",
+    "preferences": {
+      "person": 0,
+      "place": 0,
+      "history": 3
+    }
+  },
+  {
+    "id": 2,
+    "username": "ccc",
+    "password": "ccc",
+    "preferences": {
+      "person": 0,
+      "place": 2,
+      "history": 0
+    }
+  }
+]

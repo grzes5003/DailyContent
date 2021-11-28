@@ -1,7 +1,9 @@
+use std::borrow::Borrow;
 use std::collections::HashMap;
 use std::fs;
 use std::fs::File;
 use std::io::Read;
+use log::{info, warn};
 use crate::api::user_handlers::{LoginData, UserData, RegisterData};
 use crate::api::content_handlers::{Content, ContentText};
 
@@ -17,18 +19,26 @@ pub trait Database: Send + Sync {
 #[derive(Clone)]
 pub struct DatabaseMock {
     content_vec: Box<HashMap<u32, Content>>,
+    user_vec: Box<HashMap<u32, UserData>>,
     id: u8
 }
 
 impl DatabaseMock {
     pub fn new() -> Result<DatabaseMock, String> {
         let mut h_content = HashMap::new();
+        let mut h_user = HashMap::new();
+
         let s_content = fs::read_to_string("C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\content.json").expect("not found");
         let v_content: Vec<Content> = serde_json::from_str(s_content.as_str()).expect("could not convert");
         v_content.into_iter().for_each(|v| { h_content.insert(v.id, v); });
 
+        let s_user = fs::read_to_string("C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\user.json").expect("not found");
+        let v_user: Vec<UserData> = serde_json::from_str(s_user.as_str()).expect("could not convert");
+        v_user.into_iter().for_each(|v| { h_user.insert(v.id, v); });
+
         Ok(DatabaseMock{
             content_vec: Box::new(h_content),
+            user_vec: Box::new(h_user),
             id: 0
         })
     }
@@ -36,8 +46,11 @@ impl DatabaseMock {
 
 impl Database for DatabaseMock {
     fn login(&self, login_data: LoginData) -> Option<UserData> {
-        unimplemented!();
-        None
+        match self.user_vec.clone().into_iter().find(|(_,data)| *data.username == login_data.username)
+        {
+            Some(val) => Some(val.clone().1),
+            None => None
+        }
     }
 
     fn register(&self, register_data: RegisterData) -> Result<(), ()> {

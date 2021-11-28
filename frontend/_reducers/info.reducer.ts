@@ -5,6 +5,7 @@ import {imgSlice} from "./img.reducer";
 export interface ContentText {
     title: string
     description: string
+    feedback: boolean
 }
 
 export interface InfoState {
@@ -40,13 +41,18 @@ export const infoSlice = createSlice({
         addInfo: (state, {payload}: PayloadAction<ContentText>) => {
             state.content.push(payload)
             state.loading = false
+        },
+
+        setFeedback: (state, {payload}: PayloadAction<any>) => {
+            state.content[payload.idx].feedback = payload.feedback
         }
     }
 })
 
-export const {setLoading, setErrors, setContent, addInfo} = infoSlice.actions
+export const {setLoading, setErrors, setContent, addInfo, setFeedback} = infoSlice.actions
 
 export const selectInfoLoading = (state: RootState) => state.info.loading
 export const selectContentText = (state: RootState) => state.info.content;
+export const selectFeedbackStatus = (state: RootState, idx: number) => state.info.content[idx].feedback;
 
 export default infoSlice.reducer

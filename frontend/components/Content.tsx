@@ -14,21 +14,24 @@ import ShufflePlay, {BUTTON_HEIGHT} from "./ShufflePlay";
 import Header from "./Header";
 import {imgActions} from "../_actions/img.actions";
 import {useDispatch} from "react-redux";
+import {infoActions} from "../_actions/info.actions";
 
 interface ContentProps {
     content: ContentInfo;
     y: Animated.Value<number>;
+    index: number;
 }
 
 const {
     interpolateNode, Extrapolate,
 } = Animated;
 
-export default ({content: {title, description}, y}: ContentProps) => {
+export default ({content: {title, description, feedback}, y, index}: ContentProps) => {
 
     const dispatch = useDispatch();
     const onReload = () => {
         dispatch(imgActions.getAllImages());
+        dispatch(infoActions.getAllContent());
     }
 
     const height = interpolateNode(y, {
@@ -73,7 +76,7 @@ export default ({content: {title, description}, y}: ContentProps) => {
             </View>
             <View style={styles.header}>
                 <Header {...{y, title}} />
-                <ShufflePlay/>
+                <ShufflePlay title={title} index={index} description={description}/>
             </View>
             <View style={styles.description}>
                 <Text style={{color: 'white', fontSize: 20, padding: 10}}>

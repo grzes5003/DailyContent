@@ -24,5 +24,6 @@ export interface Album {
 export interface ContentInfo {
     title: string,
     description: string,
-    uri: string
+    uri: string,
+    feedback: boolean
 }

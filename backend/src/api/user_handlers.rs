@@ -12,22 +12,37 @@ pub struct LoginData {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UserLoginResponse {
+    pub id: u32,
+    pub username: String,
+    pub token: String
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct RegisterData {
     pub username: String,
     pub password: String
 }
 
-#[derive(Serialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct  Preferences {
+    person: u8,
+    place: u8,
+    history: u8
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UserData {
-    pub id: u16,
-    #[serde(rename(serialize = "username"))]
-    pub username: String
+    pub id: u32,
+    // #[serde(rename(serialize = "username"))]
+    pub username: String,
+    pub preferences: Preferences
 }
 
 
 #[post("/login")]
-pub async fn login<'a>(db: web::Data<Box<dyn Database>>, session: Session, login_data_raw: web::Json<LoginData>) -> impl Responder {
-    info!("login data {:?}", login_data_raw);
+pub async fn login<'a>(db: web::Data<Arc<dyn Database>>, session: Session, login_data_raw: web::Json<LoginData>) -> impl Responder {
+    println!("login data {:?}", login_data_raw);
 
     let login_data = LoginData {
         username: String::from(&login_data_raw.username),
@@ -37,9 +52,10 @@ pub async fn login<'a>(db: web::Data<Box<dyn Database>>, session: Session, login
     if let Some(user_data) = db.login(login_data) {
         session.insert("user_id", &user_data.id);
         return HttpResponse::Ok()
-            .json(UserData {
+            .json( UserLoginResponse {
                 id: user_data.id,
                 username: user_data.username,
+                token: "Bearer fake-jwt-token".to_string()
             })
     }
 

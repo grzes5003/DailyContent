@@ -3,42 +3,98 @@
     "id": 0,
     "title": "",
     "description": "",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\0.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\0.jpg",
+    "category": "person"
   },
   {
     "id": 0,
     "title": "Wiatraki",
     "description": "Budowla drewniana, niekiedy murowana, wyposażona w skrzydła poruszane siłą wiatru i napędzające urządzenia[1]. Jest najstarszym silnikiem wiatrowym – przetwarza energię wiatru na energię kinetyczną w ruchu obrotowym. Jest maszyną przepływową i poprzednikiem turbiny wiatrowej, którą czasami również nazywa się wiatrakiem. Wiatraki (z pionową osią) wynaleziono w IX wieku we wschodniej Persji, zaś w Europie – wiatraki z osią poziomą – pojawiły się pod koniec XII wieku[2].\n\nPierwsze wiatraki służyły głównie do mielenia zboża, w pierwszej połowie XIV wieku na terenie obecnej Holandii zaczęto używać wiatraków do napędzania pomp osuszających poldery. W późniejszych latach pojawiły się wiatraki tartaczne, inne mełły i mieszały pigmenty, rozdrabniały skały na kruszywa, plotły sznury konopne, wyciskały olej, mełły tytoń, drewno (na papier), kakao, kawę lub gorczycę (na musztardę).\n\nTypy historyczne wiatraków: koźlak, paltrak, holender.",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\0.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\0.jpg",
+    "category": "history"
   },
   {
     "id": 1,
     "title": "Ujście rzeki",
     "description": "miejsce, w którym rzeka lub inny ciek kończy swój bieg, łącząc się z inną rzeką lub wpadając do jeziora, morza, oceanu.\n\nUjścia rzek stanowią częstą i dogodną lokalizację portów, np. Port morski Kołobrzeg w ujściu Parsęty, Port morski Darłowo w ujściu Wieprzy, Port morski Police w rejonie ujścia Odry, Port morski Elbląg na rzece Elbląg.",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\1.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\1.jpg",
+    "category": "place"
   },
   {
     "id": 2,
     "title": "Alpinizm przemysłowy",
     "description": "praca na wysokości wykonywana w podwieszeniu lub w podparciu. Techniki używane w dostępie linowym wywodzą się z technik wspinaczkowych i jaskiniowych, które z czasem ewoluowały, tworząc systemy pracy, dedykowany sprzęt, liny etc.\n\nPrace w dostępie linowym wykonywane są wszędzie tam gdzie jest to uzasadnione ekonomicznie, czyli tam gdzie konwencjonalne metody, jak drabiny, podnośniki, rusztowania i inne są relatywnie za drogie do wymiaru i zakresu prac.\n\nPopularność prac w dostępie linowym nie słabnie pomimo rozwoju urządzeń i konstrukcji dostępowych, a jest to spowodowane coraz bardziej złożona architekturą inżynieryjnych konstrukcji budowlanych i maszyn.",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\2.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\2.jpg",
+    "category": "person"
   },
   {
     "id": 3,
     "title": "Wioska",
     "description": "wieś w Polsce położona w województwie dolnośląskim, w powiecie górowskim, w gminie Niechlów.",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\3.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\3.jpg",
+    "category": "place"
   },
   {
     "id": 4,
     "title": "Jan Sobiepan Zamoyski",
     "description": "herbu Jelita (ur. 9 kwietnia 1627 w Zamościu – zm. 7 kwietnia 1665 tamże) – III Ordynat zamojski, wojewoda sandomierski od 1659, wojewoda kijowski od 1658, podczaszy wielki koronny od 1655, krajczy wielki koronny od 1653, generał ziem podolskich od 1637, starosta kałuski i rostocki. Był elektorem Jana II Kazimierza Wazy z województwa krakowskiego w 1648 roku[2][3], podpisał jego pacta conventa[4].\n\nW 1655 r., z nadejściem potopu szwedzkiego, w przeciwieństwie do większości szlachty, zachował wierność królowi Janowi Kazimierzowi. Był uczestnikiem konfederacji tyszowieckiej w 1655 roku[5]. W 1656 r. dowodził skuteczną obroną Zamościa przed Szwedami. W czasie bitwy pod Warką w 1656 r. dowodził – freikompanią dragońską (chorągwią lekkiej jazdy) – 300 koni i chorągwią husarską – 137 koni.\n\n3 marca 1658 poślubił w Warszawie Marię Kazimierę d`Arquien, późniejszą żonę króla Jana III Sobieskiego. Miał z nią czworo dzieci, wszystkie zmarłe w dzieciństwie:\n\nLudwikę Marię (ur. kwiecień 1659 – zm. maj 1659),\ndziecko urodzone martwe (styczeń 1660),\nKatarzynę Barbarę (4/5 grudnia 1660 – grudzień 1662),\ncórkę (ur. i zm. 1664).\nPrzydomek „Sobiepan” oznacza, iż Jan Zamoyski cenił sobie niezależność; nie znosił, gdy ktoś narzucał mu własną wolę czy zasady postępowania. Można powiedzieć, że był panem dla samego siebie. Przydomek ten rozpowszechnił Henryk Sienkiewicz w swoim Potopie, którego jednym z bohaterów jest Zamoyski. Prywatnie miał skłonności do nadużywania alkoholu i kobieciarstwa, uznawany był też za osobę bez poważniejszych ambicji politycznych, posiadał jednak ogromną fortunę oraz z powodzeniem dowodził na polu walki[6].\n\nPochowany został w krypcie kolegiaty zamojskiej[7].\n\nPonieważ Jan nie pozostawił żadnych męskich potomków po jego śmierci wybuchła zażarta walka o prawo do wielkiej Ordynacji Zamojskiej. O przejęcie spuścizny po Zamoyskich walczyła wdowa po Janie, Maria Kazimiera d'Arquien, primo voto Zamoyska, secundo Sobieska, a także siostra zmarłego, Gryzelda z Zamoyskich Wiśniowiecka, która chciała przekazać ordynację swemu jedynemu synowi, późniejszemu królowi Michałowi Korybutowi. Początkowo dobra zajęła Gryzelda, a po jej śmierci Stanisław Koniecpolski (siostrzeniec Gryzeldy). Ostateczną jednak walkę wygrała młodsza linia Zamoyskich, której ordynację przekazano na mocy wyroku sejmowego w 1676.",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\4.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\4.jpg",
+    "category": "person"
   },
   {
     "id": 5,
     "title": "Bourdeaux",
     "description": "Według danych na rok 1990 gminę zamieszkiwały 562 osoby, a gęstość zaludnienia wynosiła 24 osób/km² (wśród 2880 gmin regionu Rodan-Alpy Bourdeaux plasuje się na 1090. miejscu pod względem liczby ludności, natomiast pod względem powierzchni na miejscu 381.).",
-    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\5.jpg"
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\5.jpg",
+    "category": "place"
+  },
+  {
+    "id": 6,
+    "title": "Diecezja Foligno",
+    "description": "diecezja Kościoła rzymskokatolickiego we Włoszech, w metropolii Perugii, w regionie kościelnym Umbria.\n\nWedług tradycji w pobliżu Foligno działali apostołowie Piotr i Paweł. Biskupstwo zostało założone już w I wieku. Za pierwszych biskupów uważa się męczenników Kryspolda i Brycjusza oraz Felicjana. Natomiast pierwszym historycznie biskupem był Urban (w 487 r.). Wśród wybitnych biskupów Foligno znajdują się m.in. św. Bonfiliusz OSB (w 1078 r.) - uczestnik pierwszej Krucjaty; uczestnicy Soboru Trydenckiego - Isidoro Clario OSB i Clemente Dolera OFM; kard. Giovanni Antonio Serbelloni czy kard. Giorgio Gusmini.\n\nW XII-XIV wieku Foligno było niezależną komuną miejską. W 1409 weszła w skład Państwa Kościelnego zachowując jednak autonomię. W 1080 benedyktyni z klasztoru Santa Croce (św. Krzyża) w Sassovivo utworzyli kongregację, która w XIV wieku obejmowała ponad 140 kościołów, 20 opactw i 73 przeoraty. Z kolei święty Franciszek z Asyżu założył tutaj w 1213 konwent braci mniejszych.",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\6.jpg",
+    "category": "history"
+  },
+  {
+    "id": 7,
+    "title": "Toga",
+    "description": "gmina w Hiszpanii, w prowincji Castellón, w Walencji, o powierzchni 13,52[1] km². W 2011 roku gmina liczyła 140[1] mieszkańców.",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\7.jpg",
+    "category": "place"
+  },
+  {
+    "id": 8,
+    "title": "Muracciole",
+    "description": "miejscowość i gmina we Francji, w regionie Korsyka, w departamencie Górna Korsyka.\n\nWedług danych na rok 1990 gminę zamieszkiwało 40 osób, a gęstość zaludnienia wynosiła 3 osoby/km².",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\8.jpg",
+    "category": "place"
+  },
+  {
+    "id": 9,
+    "title": "Fürstenfeldbruck",
+    "description": "miasto powiatowe w Niemczech, w kraju związkowym Bawaria, w rejencji Górna Bawaria, w regionie Monachium, siedziba powiatu Fürstenfeldbruck. Położone jest w odległości ok. 25 km na północny zachód od Monachium. Liczy 34 479 mieszkańców (31 grudnia 2011). Zasłynęło na świecie podczas zamachów terrorystycznych na izraelskich sportowców w 1972 roku, kiedy w Monachium odbywały się igrzyska olimpijskie. Na lotnisku w Fürstenfeldbruck doszło do wymiany ognia pomiędzy siłami specjalnymi policji a terrorystami.\n\nW mieście znajduje się stacja kolejowa.",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\9.jpg",
+    "category": "place"
+  },
+  {
+    "id": 10,
+    "title": "Stadion Marymontu Warszawa",
+    "description": " stadion klubu Marymont Warszawa położony na warszawskim Żoliborzu. Stadion może pomieścić ok. 10 tys. widzów. Od 2016 jego trybuna wpisana jest do gminnej ewidencji zabytków[1]. Projektantem całego kompleksu sportowego, znanego także jako Park Sportowy ZS „Spójnia”, był Stanisław Barylski[2]. Trybuny powstały w latach 1950−1951, a budynek szatni ok. 1953–1954[3]. Znajdowała się tam również hala szermiercza, gdzie ćwiczyli m.in. Witold Woyda i Ryszard Parulski[4].\n\nNa stadionie Marymontu jeden z pierwszych meczów młodzieżowej reprezentacji Francji rozegrał Zinédine Zidane[5], który uczestniczył w Turnieju o Puchar Syrenki[6]. Remont obiektu\nW 2017 lokalne organizacje zainicjowały zbiórkę podpisów pod petycją z apelem o przeprowadzenie remontu obiektu[7]. Akcję wsparł m.in. Zbigniew Boniek, który na stadionie debiutował w 1974 z juniorską reprezentacją Polski[8].\n\nW sierpniu 2021 władze miasta przyznały 1,9 mln złotych na remont zabytkowego obiektu. Zapowiedziano, że prace potrwają do końca 2023[9].",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\10.jpg",
+    "category": "history"
+  },
+  {
+    "id": 11,
+    "title": "Justinien Clary",
+    "description": "Jego ojcem był Pierre Fidele Bretonneau, który zmarł, gdy Justinien miał 2 lata. Gdy w 1883 roku jego matka poślubiła Justiniena-Nicolasa Clary’ego, przyjął on nazwisko Bretonneau-Clary, jednak tytułował się jako hrabia Clary. Był prawnikiem i pisarzem, ukończył studia prawnicze w Paryżu[1][2].\n\nPasjonat i mecenas francuskiego strzelectwa, wspierał finansowo wiele tamtejszych klubów i związków strzeleckich. Założyciel czasopism Le Pistolet (1894) i Le Fusil de Chasse (1897)[1][2]. Był jednym ze współorganizatorów zawodów strzeleckich podczas Letnich Igrzysk Olimpijskich 1900. Sam też w nich uczestniczył, zdobywając brązowy medal w trapie – pokonali go Roger de Barbarin i René Guyot[3]. Turniej w Paryżu był jednocześnie mistrzostwami świata, więc medaliści olimpijscy zostawali automatycznie ich medalistami. Nie tyczy się to jednak zawodników startujących w trapie i pistolecie szybkostrzelnym, zatem Clary nie jest wymieniany na liście medalistów tej imprezy[4][5].\n\nClary był wpływowym działaczem sportowym. W 1903 roku został przewodniczącym Saint-Hubert Club de France – instytucji, która miała na celu m.in. walkę z kłusownictwem[6]. W latach 1913–1933 przewodniczący Francuskiego Komitetu Olimpijskiego[7]. Od 1913 do 1925 roku przewodniczący Narodowej Komisji Sportu[8], a w latach 1919–1933 członek Międzynarodowego Komitetu Olimpijskiego[9]. Na początku lat 20. był jednym ze zwolenników utworzenia zimowych igrzysk olimpijskich (ostatecznie pierwsze takowe, pod nazwą Tygodnia Sportów Zimowych, rozegrano w 1924 roku w Chamonix)[6]. Komisarz generalny i przewodniczący komitetu wykonawczego podczas Letnich Igrzysk Olimpijskich 1924, które rozegrano w Paryżu[10]. Podczas tych igrzysk, a także w czasie Letnich Igrzysk Olimpijskich 1928, był jurorem w Olimpijskich Konkursach Sztuki i Literatury. W Paryżu oceniał prace muzyczne, literackie, architektoniczne i rzeźbiarskie, natomiast cztery lata później był członkiem jury w konkursach muzycznych i rzeźbiarskich[11][12]. W 1925 roku był kandydatem w wyborach na przewodniczącego MKOl, otrzymując w pierwszej rundzie 4 głosy, natomiast w drugiej tylko 1[13]. Podobnie jak Pierre de Coubertin, był przeciwnikiem udziału kobiet w igrzyskach olimpijskich (co wyraził na sesji MKOl w Paryżu w 1924 roku)[2].\n\nW latach 1887–1889 członek Towarzystwa Przyjaciół Zabytków Paryża[1]. Założyciel Bractwa Amerykańsko-Francuskiego, mającego na celu pomoc sierotom wojennym. W 1921 roku został Wielkim Oficerem Legii Honorowej[2].",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\11.jpg",
+    "category": "person"
+  },
+  {
+    "id": 12,
+    "title": "Żakinada bolońska",
+    "description": " święto studentów towarzyszące obchodom osiemsetnej rocznicy założenia Uniwersytetu Bolońskiego. Obchody te rozpoczęły się 12 czerwca 1888 roku.\n\nW roku 1888 z inicjatywy Giosuè Carducciego, poety i przyszłego noblisty, zorganizowano w Bolonii cykl zabaw i uroczystości, które miały upamiętnić założenie najstarszej uczelni zachodniej Europy[1]. Obchody osiemsetnej rocznicy powstania bolońskiego uniwersytetu, gdzie Carducci wykładał historię literatury włoskiej, nazwano oficjalnie Krajowym i Międzynarodowym Zjazdem Studentów Uniwersyteckich (Congresso Nazionale ed Internazionale degli Studenti Universitari). Kulminacyjnym punktem uroczystości było wygłoszenie przez Carducciego oracji Lo studio di Bologna (Nauka w Bolonii) owacyjnie przyjętej przez zebranych, wśród których znaleźli się król Humbert I, królowa Małgorzata oraz setki naukowców i delegatów z całego świata[2]. Benedetto Croce nazwał to przemówienie „pełną rozmachu i niezwykle harmonijną odą barbarzyńską”[3].\n\nZabawy uliczne w czasie żakinady bolońskiej, orszaki profesorów i studentów w strojach uniwersyteckich, występy komediantów, przedstawienia muzyczne, maskarady nawiązujące do bachanaliów i okresu średniowiecza oraz pokazy fajerwerków były szeroko opisywane przez prasę europejską[4][5].",
+    "image_url": "C:\\Users\\xgg\\WebstormProjects\\DailyContent\\backend\\data\\12.jpg",
+    "category": "history"
   }
 ]
