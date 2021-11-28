@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+    RefreshControl,
     StyleSheet, Text, View,
 } from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
@@ -11,7 +12,8 @@ import {
 } from "./Model";
 import ShufflePlay, {BUTTON_HEIGHT} from "./ShufflePlay";
 import Header from "./Header";
-import {loremIpsum, fullname} from "react-lorem-ipsum";
+import {imgActions} from "../_actions/img.actions";
+import {useDispatch} from "react-redux";
 
 interface ContentProps {
     content: ContentInfo;
@@ -23,8 +25,11 @@ const {
 } = Animated;
 
 export default ({content: {title, description}, y}: ContentProps) => {
-    const track= 'asdsad'
-    const key = 0
+
+    const dispatch = useDispatch();
+    const onReload = () => {
+        dispatch(imgActions.getAllImages());
+    }
 
     const height = interpolateNode(y, {
         inputRange: [-MAX_HEADER_HEIGHT, -BUTTON_HEIGHT / 2],
@@ -41,6 +46,13 @@ export default ({content: {title, description}, y}: ContentProps) => {
             onScroll={onScrollEvent({y})}
             style={styles.container}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+                <RefreshControl
+                    tintColor='white'
+                    refreshing={false}
+                    onRefresh={onReload} // exl in function : this.yourWebview.reload();
+                />
+            }
             scrollEventThrottle={1}
             stickyHeaderIndices={[1]}
         >
@@ -56,34 +68,19 @@ export default ({content: {title, description}, y}: ContentProps) => {
                     />
                 </Animated.View>
                 <View style={styles.artistContainer}>
-                    <Animated.Text style={[styles.artist, {opacity}]}>{title}</Animated.Text>
+                    <Animated.Text style={[styles.title, {opacity}]}>{title}</Animated.Text>
                 </View>
             </View>
             <View style={styles.header}>
                 <Header {...{y, title}} />
                 <ShufflePlay/>
             </View>
-            <View style={styles.tracks}>
+            <View style={styles.description}>
                 <Text style={{color: 'white', fontSize: 20, padding: 10}}>
                     {description}
-                    {/*{loremIpsum({p: 7, startWithLoremIpsum: false, random: true})}*/}
                 </Text>
                 <View style={{height: 200}}/>
-                {/*<Track*/}
-                {/*    index={key + 1}*/}
-                {/*    {...{track, key, artist}}*/}
-                {/*/>*/}
             </View>
-            {/*<View style={styles.tracks}>*/}
-            {/*    {*/}
-            {/*        tracks.map((track, key) => (*/}
-            {/*            <Track*/}
-            {/*                index={key + 1}*/}
-            {/*                {...{ track, key, artist }}*/}
-            {/*            />*/}
-            {/*        ))*/}
-            {/*    }*/}
-            {/*</View>*/}
         </Animated.ScrollView>
     );
 };
@@ -110,7 +107,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: BUTTON_HEIGHT
     },
-    artist: {
+    title: {
         textAlign: "center",
         color: "white",
         fontSize: 48,
@@ -119,7 +116,7 @@ const styles = StyleSheet.create({
     header: {
         marginTop: -BUTTON_HEIGHT,
     },
-    tracks: {
+    description: {
         paddingTop: 32,
         backgroundColor: "black",
     },

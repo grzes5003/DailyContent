@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use actix_web::{web, Responder, post, get, HttpResponse};
 use actix_session::{Session};
 use serde::{Serialize, Deserialize};
@@ -47,7 +48,7 @@ pub async fn login<'a>(db: web::Data<Box<dyn Database>>, session: Session, login
 }
 
 #[post("/register")]
-pub async fn register<'a>(db: web::Data<Box<dyn Database>>, session: Session, register_data_raw: web::Json<RegisterData>) -> impl Responder {
+pub async fn register<'a>(db: web::Data<Arc<dyn Database>>, session: Session, register_data_raw: web::Json<RegisterData>) -> impl Responder {
 
     let register_data = RegisterData {
         username: String::from(&register_data_raw.username),
@@ -64,7 +65,7 @@ pub async fn register<'a>(db: web::Data<Box<dyn Database>>, session: Session, re
 }
 
 #[get("/logout")]
-pub async fn logout(db: web::Data<Box<dyn Database>>, session: Session) -> impl Responder {
+pub async fn logout(db: web::Data<Arc<dyn Database>>, session: Session) -> impl Responder {
     info!("logout action");
 
     if let Ok(Some(user_id)) = session.get::<u64>("user_id") {
@@ -73,4 +74,12 @@ pub async fn logout(db: web::Data<Box<dyn Database>>, session: Session) -> impl 
     }
 
     HttpResponse::Forbidden()
+}
+
+#[get("/hello")]
+pub async fn hello(db: web::Data<Arc<dyn Database>>, session: Session) -> impl Responder {
+    info!("hello");
+
+    HttpResponse::Ok()
+        .body(db.hello())
 }

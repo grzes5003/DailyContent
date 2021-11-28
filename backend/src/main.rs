@@ -11,8 +11,10 @@ use std::env;
 
 use actix_files::Files;
 use actix_web::{middleware, web, App, HttpResponse, HttpServer, Responder};
-use crate::api::user_handlers::{login, logout, register};
+use crate::api::user_handlers::{hello, login, logout, register};
 use actix_session::{Session, CookieSession};
+use std::sync::Arc;
+use crate::api::content_handlers::{get_image, get_info};
 
 use crate::model::database::{Database, DatabaseMock};
 
@@ -20,10 +22,10 @@ async fn echo() -> impl Responder {
     "It works"
 }
 
-fn generate_db(b: bool) -> Box<dyn Database> {
+fn generate_db(b: bool) -> Arc<dyn Database> {
     match b {
         false => unimplemented!(),
-        true => Box::new(DatabaseMock::new().unwrap_or_else(
+        true => Arc::new(DatabaseMock::new().unwrap_or_else(
             |e| {
                 error!("When creating fake DB: {}", e);
                 panic!()
@@ -45,7 +47,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .data::<Box<dyn Database>>(Box::new(db.clone()))
+            .data::<Arc<dyn Database>>(db.clone())
             .wrap(middleware::Logger::default())
             .wrap(
                 CookieSession::signed(&[0; 32])
@@ -55,15 +57,18 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/api")
                     // ...so this handles requests for `GET /app/index.html`
                     .route("/echo", web::get().to(echo))
-            )
-            .service(
-                web::scope("/auth")
-                    .service(login)
-                    .service(register)
-                    .service(logout)
+                    .service(hello)
+                    .service(get_image)
+                    .service(get_info)
+                    .service(
+                        web::scope("/auth")
+                            .service(login)
+                            .service(register)
+                            .service(logout)
+                    )
             )
     })
-        .bind(env::var("URL").unwrap_or("localhost:4040".to_string()))?
+        .bind(env::var("URL").unwrap_or("192.168.0.234:4040".to_string()))?
         .run()
         .await
 }
