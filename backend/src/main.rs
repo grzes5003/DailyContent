@@ -13,9 +13,11 @@ use actix_web::{middleware, web, App, HttpResponse, HttpServer, Responder};
 use crate::api::user_handlers::{hello, login, logout, register};
 use actix_session::{Session, CookieSession};
 use std::sync::Arc;
-use crate::api::content_handlers::{get_image, get_info};
+use crate::api::content_handlers::{dislike_content, get_image, get_info, like_content};
+use actix_web_httpauth::middleware::HttpAuthentication;
 
 use crate::model::database::{Database, DatabaseMock};
+use crate::auth::validator;
 
 async fn echo() -> impl Responder {
     "It works"
@@ -66,6 +68,12 @@ async fn main() -> std::io::Result<()> {
                             .service(register)
                             .service(logout)
                             .service(hello)
+                    )
+                    .service(
+                        web::scope("/rate")
+                            .wrap(HttpAuthentication::bearer(validator))
+                            .service(like_content)
+                            .service(dislike_content)
                     )
             )
     })

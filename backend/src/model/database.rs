@@ -1,8 +1,10 @@
 use std::borrow::Borrow;
 use std::collections::HashMap;
+use std::convert::Infallible;
 use std::fs;
 use std::fs::File;
 use std::io::Read;
+use std::sync::{Arc, RwLock};
 use log::{info, warn};
 use crate::api::user_handlers::{LoginData, UserData, RegisterData};
 use crate::api::content_handlers::{Content, ContentText};
@@ -16,10 +18,12 @@ pub trait Database: Send + Sync {
     fn get_info(&self, idx: u32) -> Option<ContentText>;
 }
 
+type Users = Arc<RwLock<HashMap<u32, UserData>>>;
+
 #[derive(Clone)]
 pub struct DatabaseMock {
     content_vec: Box<HashMap<u32, Content>>,
-    user_vec: Box<HashMap<u32, UserData>>,
+    user_vec: Users,
     id: u8
 }
 
@@ -38,7 +42,7 @@ impl DatabaseMock {
 
         Ok(DatabaseMock{
             content_vec: Box::new(h_content),
-            user_vec: Box::new(h_user),
+            user_vec: Arc::new(RwLock::new(h_user)),
             id: 0
         })
     }
@@ -46,7 +50,7 @@ impl DatabaseMock {
 
 impl Database for DatabaseMock {
     fn login(&self, login_data: LoginData) -> Option<UserData> {
-        match self.user_vec.clone().into_iter().find(|(_,data)| *data.username == login_data.username)
+        match self.user_vec.try_read().expect("Could not read data").clone().into_iter().find(|(_,data)| *data.username == login_data.username)
         {
             Some(val) => Some(val.clone().1),
             None => None

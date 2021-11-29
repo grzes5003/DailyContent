@@ -5,18 +5,18 @@ import {feedbackService} from "../_services/feedback.service";
 import {setErrors} from "../_reducers/img.reducer";
 
 
-const likeContent = (idx: number): ThunkAction<void, RootState, unknown, AnyAction> =>
+const likeContent = (idx: number, token: string): ThunkAction<void, RootState, unknown, AnyAction> =>
     async dispatch => {
         console.log('like dispatch!')
-        feedbackService.likeContent(idx)
+        feedbackService.likeContent(idx, token)
             .catch(error => dispatch(setErrors(error)))
     };
 
 
-const dislikeContent = (idx: number): ThunkAction<void, RootState, unknown, AnyAction> =>
+const dislikeContent = (idx: number, token: string): ThunkAction<void, RootState, unknown, AnyAction> =>
     async dispatch => {
         console.log('dislike dispatch!')
-        feedbackService.dislikeContent(idx)
+        feedbackService.dislikeContent(idx, token)
             .catch(error => dispatch(setErrors(error)))
     };
 

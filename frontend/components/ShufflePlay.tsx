@@ -4,7 +4,7 @@ import {
 } from "react-native";
 import {SimpleLineIcons} from '@expo/vector-icons';
 import {useAppSelector} from "../_helpers/store.hooks";
-import {selectLoggedIn} from "../_reducers/auth.reducer";
+import {selectLoggedIn, selectToken} from "../_reducers/auth.reducer";
 import {useNavigation} from "@react-navigation/native";
 import {useDispatch} from "react-redux";
 import {feedbackActions} from "../_actions/feedback.actions";
@@ -42,6 +42,7 @@ export default ({title, description, index}: {title: string, description: string
 
     const feedbackStatus = useAppSelector((state) => selectFeedbackStatus(state, index))
     const loggedIn = useAppSelector(selectLoggedIn);
+    const token = useAppSelector(selectToken);
 
     const dispatch = useDispatch();
 
@@ -52,12 +53,12 @@ export default ({title, description, index}: {title: string, description: string
     };
 
     const handleLike = () => {
-        dispatch(feedbackActions.likeContent(index))
+        dispatch(feedbackActions.likeContent(index, token as string))
         dispatch(infoActions.changeFeedback(index, true))
     };
 
     const handleDislike = () => {
-        dispatch(feedbackActions.dislikeContent(index))
+        dispatch(feedbackActions.dislikeContent(index, token as string))
         dispatch(infoActions.changeFeedback(index, true))
     };
 

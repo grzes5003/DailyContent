@@ -54,3 +54,15 @@ pub async fn get_info(db: web::Data<Arc<dyn Database>>, params: web::Path<u32>) 
         None => HttpResponse::NotFound().body("Not found")
     }
 }
+
+#[get("/like/{idx}")]
+pub async fn like_content(db: web::Data<Arc<dyn Database>>, session: Session, params: web::Path<u32>) -> impl Responder {
+    let idx = params.into_inner();
+    HttpResponse::Ok().body(format!("{}", idx))
+}
+
+#[get("/dislike/{idx}")]
+pub async fn dislike_content(db: web::Data<Arc<dyn Database>>, session: Session, params: web::Path<u32>) -> impl Responder {
+    let idx = params.into_inner();
+    HttpResponse::Ok().body(format!("{}", idx))
+}

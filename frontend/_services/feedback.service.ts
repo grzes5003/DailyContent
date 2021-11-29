@@ -1,14 +1,18 @@
 import {config} from "../config";
 import axios from "axios";
+import {useAppSelector} from "../_helpers/store.hooks";
+import {selectToken} from "../_reducers/auth.reducer";
 
 
-const likeContent = (idx: number) => {
-    const req = `${config.apiUrl}/like/${idx}`;
+const likeContent = (idx: number, token: string) => {
+
+    const req = `${config.apiUrl}/rate/like/${idx}`;
 
     return axios.get<string>(req, {
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         }
     }).catch((error) => {
         console.log('error!: ', error)
@@ -16,13 +20,14 @@ const likeContent = (idx: number) => {
     })
 }
 
-const dislikeContent = (idx: number) => {
-    const req = `${config.apiUrl}/like/${idx}`;
+const dislikeContent = (idx: number, token: string) => {
+    const req = `${config.apiUrl}/rate/like/${idx}`;
 
     return axios.get<string>(req, {
         withCredentials: true,
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         }
     }).catch((error) => {
         console.log('error!: ', error)

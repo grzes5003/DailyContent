@@ -3,6 +3,7 @@ use actix_web::{web, Responder, post, get, HttpResponse};
 use actix_session::{Session};
 use serde::{Serialize, Deserialize};
 use crate::model::database::Database;
+use crate::auth;
 
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -51,11 +52,14 @@ pub async fn login<'a>(db: web::Data<Arc<dyn Database>>, session: Session, login
 
     if let Some(user_data) = db.login(login_data) {
         session.insert("user_id", &user_data.id);
+        let token = auth::create_jwt(&user_data.id.to_string())
+            .expect("Could not create JWT");
+
         return HttpResponse::Ok()
             .json( UserLoginResponse {
                 id: user_data.id,
                 username: user_data.username,
-                token: "Bearer fake-jwt-token".to_string()
+                token: format!("Bearer {}", token)
             })
     }
 
