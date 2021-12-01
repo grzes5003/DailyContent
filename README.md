@@ -1,5 +1,6 @@
 # DailyContent
 > #### React Native (expo) + Rust actix web
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Serves daily content based on user feedback
 
