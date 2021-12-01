@@ -6,6 +6,8 @@ import {Action, AnyAction} from "redux";
 import userConstants from "../constants/UserConstants";
 import {authService} from "../_services/auth.service";
 import { createAction, nanoid } from '@reduxjs/toolkit'
+import {useNavigation} from "@react-navigation/native";
+import * as LinkingConfiguration from '../navigation/index';
 
 
 // const login = createAsyncThunk(
@@ -24,7 +26,10 @@ const login = ( {username, password}: {username: string, password: string} ): Th
         console.log('login dispatch!')
         dispatch(setLoading(true))
         authService.login(username, password)
-            .then(user => dispatch(setUser(user)))
+            .then(user => {
+                dispatch(setUser(user));
+                LinkingConfiguration.navigate('Home', {})
+            })
             .catch(error => dispatch(setErrors(error)))
     }
 }

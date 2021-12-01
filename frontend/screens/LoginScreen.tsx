@@ -26,6 +26,7 @@ import {authActions} from "../_actions/auth.actions";
 import {useNavigation} from "@react-navigation/native";
 import {selectLoggedIn} from "../_reducers/auth.reducer";
 import Container from "@react-navigation/native-stack/lib/typescript/src/views/DebugContainer.native";
+import Toast from "react-native-toast-message";
 
 // const mapState = (state: RootState) => ({
 //     loggedIn: state.authentication.loggedIn
@@ -85,12 +86,17 @@ const LoginScreen = () => {
 
     const onSubmit = handleSubmit(({username, password}) => {
         console.log(`Data: ${username}, ${password}`)
+        Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: 'Bad login or password'
+        });
         dispatch(authActions.login({username, password}))
-        if (selectAuthErrors.length === 0) {
-            navigation.navigate("Home")
-        } else {
-            Alert.alert(selectAuthErrors)
-        }
+        // if (selectAuthErrors.length === 0) {
+        //     navigation.navigate("Home")
+        // } else {
+        //     Alert.alert(selectAuthErrors)
+        // }
     });
 
 
@@ -211,6 +217,7 @@ const LoginScreen = () => {
 
                     </KeyboardAvoidingView>
                 </SafeAreaView>
+                <Toast />
             </View>
         </TouchableWithoutFeedback>
     );

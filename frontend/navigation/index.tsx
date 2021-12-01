@@ -1,5 +1,5 @@
 import {FontAwesome} from '@expo/vector-icons';
-import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme, DarkTheme, createNavigationContainerRef} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Button, ColorSchemeName, Pressable, Text} from 'react-native';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
@@ -18,6 +18,15 @@ import {useDispatch} from "react-redux";
 import Home from "../screens/Home";
 
 const Drawer = createDrawerNavigator();
+
+export const navigationRef = createNavigationContainerRef();
+
+export function navigate(name: any, params: any) {
+    if (navigationRef.isReady()) {
+        navigationRef.navigate(name, params);
+    }
+}
+
 
 export function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     const loggedIn = useAppSelector(selectLoggedIn);

@@ -4,13 +4,14 @@ import React from 'react';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from "./hooks/useColorScheme";
-import Navigation from './navigation';
+import Navigation, {navigationRef} from './navigation';
 
 import {store, persistor} from "./_helpers/store.helper";
 import {Provider} from 'react-redux';
 import {PersistGate} from "redux-persist/integration/react";
 import RootNavigator from "./navigation";
 import {NavigationContainer} from "@react-navigation/native";
+import Toast from 'react-native-toast-message';
 
 export default function App() {
     const isLoadingComplete = useCachedResources();
@@ -24,10 +25,11 @@ export default function App() {
                 <Provider store={store}>
                     <PersistGate loading={null} persistor={persistor}>
                         {/*<Navigation colorScheme={colorScheme}/>*/}
-                        <NavigationContainer>
+                        <NavigationContainer ref={navigationRef}>
                             <RootNavigator/>
                         </NavigationContainer>
                         {/*<StatusBar/>*/}
+                        <Toast />
                     </PersistGate>
                 </Provider>
             </SafeAreaProvider>
