@@ -19,6 +19,7 @@ const linking: LinkingOptions<RootStackParamList> = {
                 }
             },
             Login: 'login',
+            ImageZoom: 'imageZoom',
             NotFound: '*',
         },
     },

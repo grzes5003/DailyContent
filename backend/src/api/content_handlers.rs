@@ -1,4 +1,5 @@
-use std::sync::Arc;
+use std::borrow::BorrowMut;
+use std::sync::{Arc, Mutex};
 use actix_session::Session;
 use actix_web::{HttpResponse, Responder, get, web, Result};
 use serde::{Serialize, Deserialize};
@@ -31,10 +32,10 @@ impl ContentText {
 }
 
 #[get("/img/{idx}")]
-pub async fn get_image(db: web::Data<Arc<dyn Database>>, params: web::Path<u32>) -> impl Responder {
+pub async fn get_image(db: web::Data<Arc<Mutex<dyn Database>>>, params: web::Path<u32>) -> impl Responder {
     info!("hello");
     let idx = params.into_inner();
-    match db.get_image(idx) {
+    match db.lock().unwrap().get_image(idx) {
         Some(img) => HttpResponse::Ok()
             .content_type("image/jpeg")
             .body(img),
@@ -43,11 +44,11 @@ pub async fn get_image(db: web::Data<Arc<dyn Database>>, params: web::Path<u32>)
 }
 
 #[get("/info/{idx}")]
-pub async fn get_info(db: web::Data<Arc<dyn Database>>, params: web::Path<u32>) -> impl Responder {
+pub async fn get_info(db: web::Data<Arc<Mutex<dyn Database>>>, params: web::Path<u32>) -> impl Responder {
     info!("hello");
     let idx = params.into_inner();
 
-    match db.get_info(idx) {
+    match db.lock().unwrap().get_info(idx) {
         Some(content_text) => HttpResponse::Ok()
             .content_type("application/json")
             .json(content_text),
@@ -56,13 +57,19 @@ pub async fn get_info(db: web::Data<Arc<dyn Database>>, params: web::Path<u32>) 
 }
 
 #[get("/like/{idx}")]
-pub async fn like_content(db: web::Data<Arc<dyn Database>>, session: Session, params: web::Path<u32>) -> impl Responder {
+pub async fn like_content(db: web::Data<Arc<Mutex<dyn Database>>>, session: Session, params: web::Path<u32>) -> impl Responder {
     let idx = params.into_inner();
     HttpResponse::Ok().body(format!("{}", idx))
 }
 
 #[get("/dislike/{idx}")]
-pub async fn dislike_content(db: web::Data<Arc<dyn Database>>, session: Session, params: web::Path<u32>) -> impl Responder {
+pub async fn dislike_content(db: web::Data<Arc<Mutex<dyn Database>>>, session: Session, params: web::Path<u32>) -> impl Responder {
     let idx = params.into_inner();
     HttpResponse::Ok().body(format!("{}", idx))
+}
+
+#[get("/shuffle")]
+pub async fn shuffle_content(db: web::Data<Arc<Mutex<dyn Database>>>) -> impl Responder {
+    db.lock().unwrap().gen_new_set();
+    HttpResponse::Ok().body("")
 }

@@ -12,8 +12,8 @@ use actix_files::Files;
 use actix_web::{middleware, web, App, HttpResponse, HttpServer, Responder};
 use crate::api::user_handlers::{hello, login, logout, register};
 use actix_session::{Session, CookieSession};
-use std::sync::Arc;
-use crate::api::content_handlers::{dislike_content, get_image, get_info, like_content};
+use std::sync::{Arc, Mutex};
+use crate::api::content_handlers::{dislike_content, get_image, get_info, like_content, shuffle_content};
 use actix_web_httpauth::middleware::HttpAuthentication;
 
 use crate::model::database::{Database, DatabaseMock};
@@ -23,15 +23,15 @@ async fn echo() -> impl Responder {
     "It works"
 }
 
-fn generate_db(b: bool) -> Arc<dyn Database> {
+fn generate_db(b: bool) -> Arc<Mutex<dyn Database>> {
     match b {
         false => unimplemented!(),
-        true => Arc::new(DatabaseMock::new().unwrap_or_else(
+        true => Arc::new(Mutex::new(DatabaseMock::new().unwrap_or_else(
             |e| {
                 error!("When creating fake DB: {}", e);
                 panic!()
             }
-        ))
+        )))
     }
 }
 
@@ -49,7 +49,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .data::<Arc<dyn Database>>(db.clone())
+            .data::<Arc<Mutex<dyn Database>>>(db.clone())
             .wrap(middleware::Logger::default())
             .wrap(
                 CookieSession::signed(&[0; 32])
@@ -62,6 +62,7 @@ async fn main() -> std::io::Result<()> {
                     .service(hello)
                     .service(get_image)
                     .service(get_info)
+                    .service(shuffle_content)
                     .service(
                         web::scope("/auth")
                             .service(login)

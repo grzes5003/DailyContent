@@ -375,6 +375,7 @@ dependencies = [
  "jsonwebtoken",
  "log",
  "pretty_env_logger",
+ "rand",
  "serde 1.0.130",
  "serde_json",
 ]

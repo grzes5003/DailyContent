@@ -20,13 +20,14 @@ interface ContentProps {
     content: ContentInfo;
     y: Animated.Value<number>;
     index: number;
+    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const {
     interpolateNode, Extrapolate,
 } = Animated;
 
-export default ({content: {title, description, feedback}, y, index}: ContentProps) => {
+export default ({content: {title, description, feedback}, y, index, setIsVisible}: ContentProps) => {
 
     const dispatch = useDispatch();
     const onReload = () => {
@@ -76,7 +77,7 @@ export default ({content: {title, description, feedback}, y, index}: ContentProp
             </View>
             <View style={styles.header}>
                 <Header {...{y, title}} />
-                <ShufflePlay title={title} index={index} description={description}/>
+                <ShufflePlay setIsVisible={setIsVisible} title={title} index={index} description={description}/>
             </View>
             <View style={styles.description}>
                 <Text style={{color: 'white', fontSize: 20, padding: 10}}>

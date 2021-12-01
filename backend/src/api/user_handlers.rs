@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use actix_web::{web, Responder, post, get, HttpResponse};
 use actix_session::{Session};
 use serde::{Serialize, Deserialize};
@@ -42,7 +42,7 @@ pub struct UserData {
 
 
 #[post("/login")]
-pub async fn login<'a>(db: web::Data<Arc<dyn Database>>, session: Session, login_data_raw: web::Json<LoginData>) -> impl Responder {
+pub async fn login<'a>(db: web::Data<Arc<Mutex<dyn Database>>>, session: Session, login_data_raw: web::Json<LoginData>) -> impl Responder {
     println!("login data {:?}", login_data_raw);
 
     let login_data = LoginData {
@@ -50,7 +50,7 @@ pub async fn login<'a>(db: web::Data<Arc<dyn Database>>, session: Session, login
         password: String::from(&login_data_raw.password)
     };
 
-    if let Some(user_data) = db.login(login_data) {
+    if let Some(user_data) = db.lock().unwrap().login(login_data) {
         session.insert("user_id", &user_data.id);
         let token = auth::create_jwt(&user_data.id.to_string())
             .expect("Could not create JWT");
@@ -68,7 +68,7 @@ pub async fn login<'a>(db: web::Data<Arc<dyn Database>>, session: Session, login
 }
 
 #[post("/register")]
-pub async fn register<'a>(db: web::Data<Arc<dyn Database>>, session: Session, register_data_raw: web::Json<RegisterData>) -> impl Responder {
+pub async fn register<'a>(db: web::Data<Arc<Mutex<dyn Database>>>, session: Session, register_data_raw: web::Json<RegisterData>) -> impl Responder {
 
     let register_data = RegisterData {
         username: String::from(&register_data_raw.username),
@@ -77,7 +77,7 @@ pub async fn register<'a>(db: web::Data<Arc<dyn Database>>, session: Session, re
 
     info!("register data {:?}", register_data);
 
-    if let Ok(_) = db.register(register_data) {
+    if let Ok(_) = db.lock().unwrap().register(register_data) {
         return HttpResponse::Ok();
     }
 
@@ -85,7 +85,7 @@ pub async fn register<'a>(db: web::Data<Arc<dyn Database>>, session: Session, re
 }
 
 #[get("/logout")]
-pub async fn logout(db: web::Data<Arc<dyn Database>>, session: Session) -> impl Responder {
+pub async fn logout(db: web::Data<Arc<Mutex<dyn Database>>>, session: Session) -> impl Responder {
     info!("logout action");
 
     if let Ok(Some(user_id)) = session.get::<u64>("user_id") {
@@ -97,9 +97,9 @@ pub async fn logout(db: web::Data<Arc<dyn Database>>, session: Session) -> impl 
 }
 
 #[get("/hello")]
-pub async fn hello(db: web::Data<Arc<dyn Database>>, session: Session) -> impl Responder {
+pub async fn hello(db: web::Data<Arc<Mutex<dyn Database>>>, session: Session) -> impl Responder {
     info!("hello");
 
     HttpResponse::Ok()
-        .body(db.hello())
+        .body(db.lock().unwrap().hello())
 }

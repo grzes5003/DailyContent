@@ -16,6 +16,8 @@ import {imgActions} from "../_actions/img.actions";
 import {infoActions} from "../_actions/info.actions";
 import {selectContentText, selectInfoLoading} from "../_reducers/info.reducer";
 import ContentComponent from "../components/ContentComponent";
+import ImageViewer from "react-native-image-zoom-viewer";
+import ImageView from "react-native-image-viewing";
 
 
 export default () => {

@@ -207,7 +207,7 @@ const LoginScreen = () => {
                             </View>
                         </TouchableOpacity>
                         <View style={styles.orText}>
-                            <Text style={styles.buttonTitle}>Or</Text>
+                            <Text style={[styles.buttonTitle, {textAlign: 'center'}]}>Or</Text>
                         </View>
                         <TouchableOpacity onPress={onSubmit}>
                             <View style={styles.button}>
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
         width: '100%',
         display: "flex",
         justifyContent: 'center',
+        textAlign: "center"
     },
     button: {
         alignItems: 'center',

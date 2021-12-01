@@ -2,7 +2,7 @@ import * as React from "react";
 import {
     View, Text, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, Share, Alert,
 } from "react-native";
-import {SimpleLineIcons} from '@expo/vector-icons';
+import {Feather, SimpleLineIcons} from '@expo/vector-icons';
 import {useAppSelector} from "../_helpers/store.hooks";
 import {selectLoggedIn, selectToken} from "../_reducers/auth.reducer";
 import {useNavigation} from "@react-navigation/native";
@@ -37,7 +37,12 @@ const onShare = async ({title, description}: {title: string, description: string
     }
 };
 
-export default ({title, description, index}: {title: string, description: string, index: number}) => {
+export default ({title, description, index, setIsVisible}:
+    {title: string,
+    description: string,
+    index: number,
+    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>}
+) => {
     const navigation = useNavigation();
 
     const feedbackStatus = useAppSelector((state) => selectFeedbackStatus(state, index))
@@ -51,6 +56,11 @@ export default ({title, description, index}: {title: string, description: string
             navigation.navigate('Login');
         }
     };
+
+
+    const tmp = () => {
+        setIsVisible(true);
+    }
 
     const handleLike = () => {
         dispatch(feedbackActions.likeContent(index, token as string))
@@ -77,6 +87,12 @@ export default ({title, description, index}: {title: string, description: string
         <TouchableOpacity onPress={() => loggedIn ? onShare({title, description}) : handleLoginAlert()}>
             <View style={[styles.button, {backgroundColor: bcgColor }]}>
                 <Text style={[styles.label, {color: iconColor}]}>Share</Text>
+            </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => loggedIn ? tmp() : handleLoginAlert()}>
+            <View style={[styles.likeButton, {backgroundColor: bcgColor }]}>
+                <Feather name="zoom-in" size={24} style={{textAlign: "center"}} color={iconColor} />
             </View>
         </TouchableOpacity>
 
