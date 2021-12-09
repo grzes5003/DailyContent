@@ -1,5 +1,6 @@
+![alt text](docs/_media/logo.png)
+> #### React Native (expo) + Redux + Rust actix web
 # DailyContent
-> #### React Native (expo) + Rust actix web
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Serves daily content based on user feedback
@@ -27,3 +28,7 @@ This repo contains 3 main parts:
  - `backend`: Rust server used by app
  - `backend-mock`: Node server based on Express.js with basic functionality
 
+
+### Frontend
+
+#### Redux
