@@ -22,7 +22,20 @@ To get app running:
 
 > Note: by default expo and server runs on localhost
 
-## General overview
+## About App 
+Home screen presets to user 5 random interesting facts (These are polish wikipedia articles as an example).
+
+![Alt Text](docs/_media/app_01.gif)
+
+User - if logged in - can share nad react to every fact with like/dislike. Feedback is sent do to server,
+adjusting content presented to user in the future.  
+
+![Alt Text](docs/_media/app_02.gif)
+
+
+![Alt Text](docs/_media/app_03.gif)
+
+## General overview of project structure
 This repo contains 3 main parts:
  - `frontend`: React Native app created with expo
  - `backend`: Rust server used by app
@@ -31,4 +44,166 @@ This repo contains 3 main parts:
 
 ### Frontend
 
-#### Redux
+
+App was implemented in React native with expo. I selected Redux as a state container.
+Whole frontend codebase was written in TypeScript, as an attempt to understand this technology.  
+
+Code structure is similar to my previous react+redux projects.
+ - `screens` contains ready to use screen components
+ - `components` are smaller parts used to build screens
+ - `navigation` defines relations between different app screens
+ - `assets` is in the most part not used, as it was useful in mocking process in early development stages
+ - `_*` directories defines behaviour of state container and communication with REST api. More about this 
+ can be found in the following sections.
+
+#### Redux (`_*` dirs) *aka back to the MVC*
+ 
+Model+View+Controller was (disputably still is) quite popular approach for designing applications.
+View displays Model controlled by Controller - View is handled by React components, Redux does the rest.
+Redux really facilitates this technique in React, with ease.
+
+Inside `_helpers/store.helper.ts` store is defined. It's Redux core, combining reducers with middleware. 
+After declaration store is wrapped with storage, enabling possibility to store data in persistent device memory.
+                                                                        
+Data stored in state containers is: 
+
+User data with JWT token
+```ts
+// auth: auth.reducers.ts
+export interface User {
+    id: number,
+    token: string,
+    username: string
+}
+export interface AuthState {
+    loggedIn: boolean,
+    ...
+}
+
+```
+
+Content data shown to user in Home screen
+```ts
+// info info.reducers.ts
+
+export interface ContentText {
+    title: string
+    description: string
+    feedback: boolean
+}
+
+export interface InfoState {
+    content: ContentText[],
+    ...
+}
+
+// img: img.reducers.ts
+export interface ImgState {
+    images: string[],
+    ...
+}
+
+```
+
+
+All controllers are stored inside `_reducers`. From there reducers directly influences store data:
+```ts
+export const imgSlice = createSlice({
+    name: 'img',
+    initialState,
+    reducers: {
+        setLoading: (state, {payload}: PayloadAction<boolean>) => {
+            state.loading = payload
+        },
+
+        setErrors: (state, {payload}: PayloadAction<string>) => {
+            state.error = payload
+            state.loading = false
+        },
+
+        setImages: (state, {payload}: PayloadAction<any>) => {
+            state.images = payload
+            state.loading = false
+        },
+
+        addImg: (state, {payload}: PayloadAction<any>) => {
+            state.images.push(payload)
+            state.loading = false
+        }
+    }
+})
+```
+Where initial state is 
+```ts
+const initialState: ImgState = {
+    loading: false,
+    images: [],
+    error: ''
+}
+```
+This declaration enables to call `imgSlice.setImages(my_payload)`, that changes all stored images.
+
+Easiest way to expose *reducers* in controlled manner is to define *actions*:
+```ts
+const getAllImages = (): ThunkAction<void, RootState, unknown, AnyAction> =>
+    async dispatch => {
+        console.log('get all images dispatch!');
+        dispatch(setLoading(true))
+
+        imgService.getAllImgs()
+            .then(
+                images => dispatch(setImages(images)),
+                error => dispatch(setErrors(error))
+            )
+    };
+```
+
+The function above is called, for example, when loading home screen React component calls (aka *dispatches*) action `dispatch(getAllImages)`.
+This triggers `imgService.getAllImgs()` inside this `ThunkAction`, which directly queries REST API exposed by server.
+
+```ts
+const getAllImgs = () => {
+    const req = `${config.apiUrl}/img`;
+    console.log('fetch all images from ', req)
+
+    const promises = [];
+
+    for (const x of Array(5).keys()) {
+        promises.push(FileSystem.downloadAsync(
+            `${req}/${x}`,
+            FileSystem.documentDirectory + `${x}.jpg`,
+            {
+                sessionType: FileSystem.FileSystemSessionType.FOREGROUND
+            }
+        )
+            .then(({uri}) => {
+                console.log('Finished downloading to ', uri);
+                return uri
+            })
+            .catch(error => {
+                console.log('Finished downloading with error ');
+                console.error(error);
+            })
+        );
+    }
+
+    return Promise.all(promises).then(values => {
+        console.log('values ' + values);
+        return values;
+    }).catch(error => {
+        console.log(error);
+    })
+}
+```
+
+Function above downloads images and returns URIs to it as promise.
+Following that chain of calls, when promise is resolved `dispatch(setImages(images))` with array of URIs. 
+
+```ts
+        imgService.getAllImgs()
+           .then(
+                images => dispatch(setImages(images)),
+                error => dispatch(setErrors(error))
+            )
+```
+
