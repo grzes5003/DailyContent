@@ -270,3 +270,143 @@ Following that chain of calls, when promise is resolved `dispatch(setImages(imag
 
 Other reducers, actions and services (for `auth` and `content`) are designed similarly. 
 This approach enables great control over data used in app.
+
+
+### Backend
+
+Server was implemented in Actix::web, using Rust. 
+It handles REST API queries, that includes credential service.
+
+Codebase is located inside:
+- `api` where all router functions are declared
+- `model` that defines database 
+
+File `main.rs` contains declaration of Actix server.
+
+Paths inside `/api` are only exposed. 
+Additionally there are two more sub-paths: 
+`/api/login`, handling user authentication
+and
+`api/rate`, hidden behind `HttpAuthentication` wall - meaning only logged-in users 
+can access rate paths.
+
+
+```rust
+   HttpServer::new(move || {
+        App::new()
+            .data::<Arc<Mutex<dyn Database>>>(db.clone())
+            .wrap(middleware::Logger::default())
+            .wrap(
+                CookieSession::signed(&[0; 32])
+                    .secure(false)
+            )
+            .service(
+                web::scope("/api")
+                    // ...so this handles requests for `GET /app/index.html`
+                    .route("/echo", web::get().to(echo))
+                    .service(hello)
+                    .service(get_image)
+                    .service(get_info)
+                    .service(shuffle_content)
+                    .service(
+                        web::scope("/auth")
+                            .service(login)
+                            .service(register)
+                            .service(logout)
+                            .service(hello)
+                    )
+                    .service(
+                        web::scope("/rate")
+                            .wrap(HttpAuthentication::bearer(validator))
+                            .service(like_content)
+                            .service(dislike_content)
+                    )
+            )
+    })
+```
+
+Each user connection has its own session
+```rust
+            .wrap(
+                CookieSession::signed(&[0; 32])
+                    .secure(false)
+            )
+```
+
+All app data is stored in mocked database. Actix::web offers `.data()` method that handles access to db.
+
+```jsx
+let db = generate_db(settings.get_bool("mock").unwrap_or(false));
+
+...
+
+App::new()
+    .data::<Arc<Mutex<dyn Database>>>(db.clone())
+
+```
+
+
+#### API
+
+When user access REST api, Actix router calls appropriate function.
+For example when request is sent to `/img/1`, function `get_image()` is called.
+
+```rust
+#[get("/img/{idx}")]
+pub async fn get_image(db: web::Data<Arc<Mutex<dyn Database>>>, params: web::Path<u32>) -> impl Responder {
+    info!("hello");
+    let idx = params.into_inner();
+    match db.lock().unwrap().get_image(idx) {
+        Some(img) => HttpResponse::Ok()
+            .content_type("image/jpeg")
+            .body(img),
+        None => HttpResponse::NotFound().body("Not found")
+    }
+}
+```
+
+Function `get_image()` calls database to access image
+
+#### Database
+
+**Database** is just a trait. Server can use any structure that implements **Database** trait.
+
+```rust
+pub trait Database: Send + Sync {
+    fn login(&self, login_data: LoginData) -> Option<UserData>;
+    fn register(&self, register_data: RegisterData) -> Result<(), ()>;
+    fn hello(&self) -> String;
+
+    fn get_image(&self, idx: u32) -> Option<Vec<u8>>;
+    fn get_info(&self, idx: u32) -> Option<ContentText>;
+    fn gen_new_set(&mut self) -> ();
+}
+```
+*DatabaseMock* is an example of implemented Database, used by the server
+```rust
+#[derive(Clone)]
+pub struct DatabaseMock {
+    content_vec: Box<HashMap<u32, Content>>,
+    user_vec: Users,
+    id: u8,
+    random_vec: Vec<u32>,
+}
+```
+
+When router requests image from database, `db.get_image(idx)` is called. In this case `DatabaseMock::get_image()`, 
+which implementation tries to read image from disk and returns result.
+
+```rust
+    fn get_image(&self, idx: u32) -> Option<Vec<u8>> {
+        let img =
+            std::fs::read(format!("{}\\{}.jpg", &self.content_path,
+                                  &self.random_vec.get(idx as usize).unwrap()));
+        match img {
+            Ok(img) => Some(img),
+            Err(img) => {
+                warn!("No such file");
+                None
+            }
+        }
+    }
+```
