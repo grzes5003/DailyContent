@@ -23,6 +23,7 @@ To get app running:
 > Note: by default expo and server runs on localhost
 
 ## About App 
+DailyContent is mobile application, made as a university project. 
 Home screen presets to user 5 random interesting facts (These are polish wikipedia articles as an example).
 
 ![Alt Text](docs/_media/app_01.gif)
@@ -55,6 +56,66 @@ Code structure is similar to my previous react+redux projects.
  - `assets` is in the most part not used, as it was useful in mocking process in early development stages
  - `_*` directories defines behaviour of state container and communication with REST api. More about this 
  can be found in the following sections.
+
+#### Screens 
+
+Application contains three screens:
+- Home
+- Login
+- NotFound
+
+Home screen handles all content cards and is starting screen for an app. 
+Login screen is implemented as Modal type screen, expanding from bottom.
+NotFound screen is served when user tries to access unavailable resources.
+
+#### Navigation
+
+Main component called `RootNavigator` defines relations between different screens. 
+
+```tsx
+export default function RootNavigator() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Drawer" component={Navigation} options={{headerShown: false, headerTransparent: true}}/>
+            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
+            <Stack.Group screenOptions={{presentation: 'modal'}}>
+                <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: true, headerTransparent: true, headerTintColor: 'white'}}/>
+            </Stack.Group>
+        </Stack.Navigator>
+    );
+}
+
+```
+
+Drawer is next navigation element, defining Home screen, and side drawer styled menu.
+
+
+```tsx
+export function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
+    const loggedIn = useAppSelector(selectLoggedIn);
+    const dispatch = useDispatch();
+
+    const DrawerContent = (props: any) => (
+        ...
+        // all menu elements
+        ...
+    )
+
+    return (
+        <Drawer.Navigator screenOptions={{drawerActiveTintColor: 'white', drawerInactiveTintColor: 'white'}}
+                          initialRouteName="Home"
+                          drawerContent={DrawerContent}
+        >
+            <Drawer.Screen options={{headerTransparent: true, headerTitle: ''}} name="Home" component={Home}/>
+        </Drawer.Navigator>
+    );
+}
+```
+
+#### Components
+
+Components are defined inside `frontend/components` directory.
+Component is small interface element, that can be reused in app.
 
 #### Redux (`_*` dirs) *aka back to the MVC*
  
@@ -207,3 +268,5 @@ Following that chain of calls, when promise is resolved `dispatch(setImages(imag
             )
 ```
 
+Other reducers, actions and services (for `auth` and `content`) are designed similarly. 
+This approach enables great control over data used in app.
